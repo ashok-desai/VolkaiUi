@@ -22,11 +22,12 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import RNFetchBlob from 'rn-fetch-blob';
 import LinearGradient from 'react-native-linear-gradient';
 
+
 const openSettings = () => {
   Linking.openSettings();
 };
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}:any) => {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<
     {text?: string; sender: string; image?: any}[]
@@ -37,16 +38,15 @@ const HomeScreen = () => {
   const inputRef = useRef<TextInput>(null);
   const flatListRef = useRef<FlatList<any>>(null);
 
-    const scrollToBottom = () => {
+  const scrollToBottom = () => {
     if (flatListRef.current && messages.length > 0) {
-      flatListRef.current.scrollToOffset({ offset: 0, animated: true });
+      flatListRef.current.scrollToOffset({offset: 0, animated: true});
     }
   };
 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
-
 
   const requestStoragePermission = async () => {
     try {
@@ -124,7 +124,7 @@ const HomeScreen = () => {
             ...prev,
             {
               sender: 'ai',
-              image: require('../assets/images/image11.png'),
+              image: require('../../assets/images/image11.png'),
               text: 'Here comes your beautiful night sky and a\ndazzling star! I hope it captures the wonder\nyou’re looking for.',
             },
           ]);
@@ -156,7 +156,7 @@ const HomeScreen = () => {
             ...prev,
             {
               sender: 'ai',
-              image: require('../assets/images/image11.png'),
+              image: require('../../assets/images/image11.png'),
               text: 'Here comes your beautiful night sky and a\ndazzling star! I hope it captures the wonder\nyou’re looking for.  ✨',
             },
           ]);
@@ -243,23 +243,25 @@ const HomeScreen = () => {
             style={styles.background}
           />
           <View style={styles.imageContainer}>
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <Image
+                source={require('../../assets/images/image9.png')}
+                style={styles.imageLeft}
+              />
+            </TouchableOpacity>
             <Image
-              source={require('../assets/images/image9.png')}
-              style={styles.imageLeft}
-            />
-            <Image
-              source={require('../assets/images/volkai1.png')}
+              source={require('../../assets/images/volkai1.png')}
               style={styles.imageCenter}
             />
             <Image
-              source={require('../assets/images/image10.png')}
+              source={require('../../assets/images/image10.png')}
               style={styles.imageRight}
             />
           </View>
           {!isMessageSent ? (
             <View style={styles.centeredContainer}>
               <Image
-                source={require('../assets/images/image7.png')}
+                source={require('../../assets/images/image7.png')}
                 style={styles.image}
               />
               <Text style={styles.text}>Hi, I’m Volkai Ai</Text>
@@ -285,7 +287,7 @@ const HomeScreen = () => {
                     {item.sender === 'ai' && (
                       <View style={styles.aiIconWrapper}>
                         <Image
-                          source={require('../assets/images/volkaiimage.png')}
+                          source={require('../../assets/images/volkaiimage.png')}
                           style={styles.aiIcon}
                         />
                       </View>
@@ -307,7 +309,7 @@ const HomeScreen = () => {
                             onPress={downloadImage}
                             style={styles.downloadButton}>
                             <Image
-                              source={require('../assets/images/downloandimage.png')}
+                              source={require('../../assets/images/downloandimage.png')}
                               style={styles.downloadIcon}
                             />
                           </TouchableOpacity>
@@ -315,7 +317,7 @@ const HomeScreen = () => {
                             onPress={() => copyToClipboard(item.text!)}
                             style={styles.copyButton}>
                             <Image
-                              source={require('../assets/images/copyimage.png')}
+                              source={require('../../assets/images/copyimage.png')}
                               style={styles.copyIcon}
                             />
                           </TouchableOpacity>
@@ -336,7 +338,7 @@ const HomeScreen = () => {
                             onPress={() => handleEdit(realIndex)}
                             style={styles.editButton}>
                             <Image
-                              source={require('../assets/images/editimage.png')}
+                              source={require('../../assets/images/editimage.png')}
                               style={styles.copyIcon}
                             />
                           </TouchableOpacity>
@@ -346,7 +348,7 @@ const HomeScreen = () => {
                           onPress={() => copyToClipboard(item.text!)}
                           style={styles.copyButton}>
                           <Image
-                            source={require('../assets/images/copyimage.png')}
+                            source={require('../../assets/images/copyimage.png')}
                             style={styles.copyIcon}
                           />
                         </TouchableOpacity>
@@ -361,14 +363,14 @@ const HomeScreen = () => {
           )}
           <View style={styles.textBox}>
             <Image
-              source={require('../assets/images/volkaiimage.png')}
+              source={require('../../assets/images/volkaiimage.png')}
               style={styles.imageIcon2}
             />
             <Text style={styles.textStyle2}>Volkai Ai</Text>
           </View>
           <View style={styles.textBox1}>
             <Image
-              source={require('../assets/images/searchimage.png')}
+              source={require('../../assets/images/searchimage.png')}
               style={styles.imageIcon3}
             />
             <Text style={styles.textStyle3}>Search</Text>
@@ -376,7 +378,7 @@ const HomeScreen = () => {
           <View style={styles.inputWrapper}>
             <View style={styles.inputContainer}>
               <Image
-                source={require('../assets/images/image12.png')}
+                source={require('../../assets/images/image12.png')}
                 style={styles.inputIconLeft}
               />
               <TextInput
@@ -397,7 +399,7 @@ const HomeScreen = () => {
               />
               <TouchableOpacity onPress={sendMessage} style={styles.sendButton}>
                 <Image
-                  source={require('../assets/images/image13.png')}
+                  source={require('../../assets/images/image13.png')}
                   style={styles.inputIconRight}
                 />
               </TouchableOpacity>
@@ -557,7 +559,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     width: '100%',
     alignSelf: 'center',
-    marginBottom: 5,
+    marginBottom: 10,
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.25,

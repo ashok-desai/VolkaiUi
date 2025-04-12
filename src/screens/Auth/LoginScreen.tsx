@@ -19,6 +19,7 @@ type RootStackParamList = {
   SignUpScreen: undefined;
   ForgotPasswordScreen: undefined;
   HomeScreen: undefined;
+  Main: undefined;
 };
 
 const generateStars = (count: number) => {
@@ -69,7 +70,7 @@ const LoginScreen = () => {
             style={styles.logoWrapper}
             onPress={() => navigation.replace('SignUpScreen')}>
             <Image
-              source={require('../assets/images/image.png')}
+              source={require('../../assets/images/image.png')}
               style={styles.logo}
               resizeMode="contain"
             />
@@ -78,7 +79,7 @@ const LoginScreen = () => {
 
         <View style={styles.content}>
           <Image
-            source={require('../assets/images/image7.png')}
+            source={require('../../assets/images/image7.png')}
             style={styles.image}
           />
           <View style={styles.textBlock}>
@@ -105,7 +106,7 @@ const LoginScreen = () => {
             />
             <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
               <Image
-                source={require('../assets/images/icon.png')}
+                source={require('../../assets/images/icon.png')}
                 style={styles.icon}
                 resizeMode="contain"
               />
@@ -119,7 +120,7 @@ const LoginScreen = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => navigation.navigate('HomeScreen')}
+            onPress={() => navigation.navigate('Main')}
             style={styles.loginButton}>
             <LinearGradient
               colors={['#F38835', '#C02D2B']}

@@ -14,10 +14,9 @@ import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-// Define the type for navigation stack
 type RootStackParamList = {
   VerifyOtpScreen1: undefined;
-  HomeScreen: undefined;
+  Main: undefined;
 };
 
 type NavigationProp = NativeStackNavigationProp<
@@ -25,7 +24,6 @@ type NavigationProp = NativeStackNavigationProp<
   'VerifyOtpScreen1'
 >;
 
-// Function to generate stars for animated background
 const generateStars = (count: number) => {
   const stars = [];
   for (let i = 0; i < count; i++) {
@@ -46,26 +44,29 @@ const VerifyOtpScreen1 = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  // Clear passwords when coming back to this screen
+  const [navigated, setNavigated] = useState(false); 
   useFocusEffect(
     useCallback(() => {
       setPassword('');
       setConfirmPassword('');
       setShowPassword(false);
       setShowConfirmPassword(false);
+      setNavigated(false); 
     }, []),
   );
 
-  // Navigate to HomeScreen if passwords match
   useEffect(() => {
-    if (password && confirmPassword && password === confirmPassword) {
-      const timeout = setTimeout(() => {
-        navigation.navigate('HomeScreen');
-      }, 500);
-      return () => clearTimeout(timeout);
+    if (
+      password.length > 0 &&
+      confirmPassword.length > 0 &&
+      password === confirmPassword &&
+      !navigated
+    ) {
+      setNavigated(true);
+      navigation.navigate('Main'); 
     }
-  }, [password, confirmPassword, navigation]);
+  }, [password, confirmPassword, navigation, navigated]);
+
 
   return (
     <View style={styles.container}>
@@ -92,6 +93,10 @@ const VerifyOtpScreen1 = () => {
         ))}
 
         <View style={styles.content}>
+          <Image
+            source={require('../../assets/images/backgroundimage.png')}
+            style={styles.image}
+          />
           <Text style={styles.text}>We have sent a verification code to</Text>
           <Text style={styles.text1}>ashok6874@gmail.com</Text>
 
@@ -104,10 +109,12 @@ const VerifyOtpScreen1 = () => {
               secureTextEntry={!showPassword}
               value={password}
               onChangeText={setPassword}
+              keyboardType="number-pad"
+              textContentType="oneTimeCode"
             />
             <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
               <Image
-                source={require('../assets/images/icon.png')}
+                source={require('../../assets/images/icon.png')}
                 style={styles.eyeIcon}
               />
             </TouchableOpacity>
@@ -122,11 +129,13 @@ const VerifyOtpScreen1 = () => {
               secureTextEntry={!showConfirmPassword}
               value={confirmPassword}
               onChangeText={setConfirmPassword}
+              keyboardType="number-pad"
+              textContentType="oneTimeCode"
             />
             <TouchableOpacity
               onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
               <Image
-                source={require('../assets/images/icon.png')}
+                source={require('../../assets/images/icon.png')}
                 style={styles.eyeIcon}
               />
             </TouchableOpacity>
@@ -142,6 +151,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000',
   },
+  image: {
+    marginLeft: '28%',
+    marginBottom: 20,
+  },
   gradient: {
     flex: 1,
     alignItems: 'center',
@@ -155,7 +168,7 @@ const styles = StyleSheet.create({
   content: {
     zIndex: 2,
     width: '95%',
-    marginTop: 230,
+    marginTop: 130,
   },
   text: {
     color: '#919191',

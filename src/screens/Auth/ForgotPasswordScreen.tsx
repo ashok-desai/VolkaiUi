@@ -64,7 +64,7 @@ const ForgotPasswordScreen = () => {
         <View style={styles.logoWrapper}>
           <TouchableOpacity onPress={() => navigation.replace('LoginScreen')}>
             <Image
-              source={require('../assets/images/image.png')}
+              source={require('../../assets/images/image.png')}
               style={styles.logo}
               resizeMode="contain"
             />
@@ -75,7 +75,7 @@ const ForgotPasswordScreen = () => {
           <Text style={styles.title}>Forgot Password</Text>
 
           <Image
-            source={require('../assets/images/image8.png')}
+            source={require('../../assets/images/image8.png')}
             style={styles.image}
           />
 

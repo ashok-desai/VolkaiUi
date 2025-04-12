@@ -1,16 +1,18 @@
-import React from 'react'
+import 'react-native-gesture-handler';
+import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import SplashScreen from './src/screens/SplashScreen'
-import SplashScreen1 from './src/screens/SplashScreen1';
-import SplashScreen2 from './src/screens/SplashScreen2';
-import SplashScreen3 from './src/screens/SplashScreen3';
-import SignUpScreen from './src/components/SignUpScreen';
-import LoginScreen from './src/components/LoginScreen';
-import ForgotPasswordScreen from './src/components/ForgotPasswordScreen';
-import VerifyOtpScreen from './src/components/VerifyOtpScreen';
-import VerifyOtpScreen1 from './src/components/VerifyOtpScreen1';
-import HomeScreen from './src/components/HomeScreen';
+import SplashScreen from './src/Splash/SplashScreen';
+import SplashScreen1 from './src/Splash/SplashScreen1';
+import SplashScreen2 from './src/Splash/SplashScreen2';
+import SplashScreen3 from './src/Splash/SplashScreen3';
+import SignUpScreen from './src/screens/Auth/SignUpScreen';
+import LoginScreen from './src/screens/Auth/LoginScreen';
+import ForgotPasswordScreen from './src/screens/Auth/ForgotPasswordScreen';
+import VerifyOtpScreen from './src/screens/Auth/VerifyOtpScreen';
+import VerifyOtpScreen1 from './src/screens/Auth/VerifyOtpScreen1';
+import DrawerNavigation from './src/components/drawer/DrawerNavigation';
+import AccountScreen from './src/screens/Account/AccountScreen';
 
 const Stack = createNativeStackNavigator();
 function App() {
@@ -23,13 +25,17 @@ function App() {
         <Stack.Screen name="SplashScreen3" component={SplashScreen3} />
         <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
-        <Stack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} />
+        <Stack.Screen
+          name="ForgotPasswordScreen"
+          component={ForgotPasswordScreen}
+        />
         <Stack.Screen name="VerifyOtpScreen" component={VerifyOtpScreen} />
         <Stack.Screen name="VerifyOtpScreen1" component={VerifyOtpScreen1} />
-        <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen name="Main" component={DrawerNavigation} />
+        <Stack.Screen name="AccountScreen" component={AccountScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
-export default App
+export default App;

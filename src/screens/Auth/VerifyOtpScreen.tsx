@@ -7,6 +7,7 @@ import {
   StatusBar,
   TextInput,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
@@ -86,7 +87,6 @@ const VerifyOtpScreen = () => {
   const handleResend = () => {
     setTimer(17);
     setIsTimerActive(true);
-    // Add resend logic here (API call, etc.)
     console.log('OTP resent');
   };
 
@@ -115,6 +115,10 @@ const VerifyOtpScreen = () => {
         ))}
 
         <View style={styles.content}>
+          <Image
+            source={require('../../assets/images/backgroundimage.png')}
+            style={styles.image}
+          />
           <Text style={styles.text}>We have sent a verification code to</Text>
           <Text style={styles.text1}>ashok6874@gmail.com</Text>
 
@@ -135,7 +139,6 @@ const VerifyOtpScreen = () => {
             ))}
           </View>
 
-          {/* Resend OTP + Timer */}
           <TouchableOpacity
             style={styles.resendRow}
             onPress={handleResend}
@@ -156,6 +159,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000',
+  },
+  image:{
+    marginBottom:30
   },
   gradient: {
     flex: 1,
@@ -216,7 +222,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 14,
     fontWeight: 'bold',
-    marginBottom:100
+    marginBottom:200
   },
 });
 

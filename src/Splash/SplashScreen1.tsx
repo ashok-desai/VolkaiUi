@@ -13,8 +13,9 @@ import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 
 type RootStackParamList = {
-  SplashScreen1: undefined;
-  SplashScreen3: undefined;
+  Splash1: undefined;
+  SplashScreen: undefined;
+  SplashScreen2: undefined;
 };
 
 const generateStars = (count: number) => {
@@ -23,45 +24,46 @@ const generateStars = (count: number) => {
     stars.push({
       left: Math.random() * Dimensions.get('window').width,
       top: Math.random() * Dimensions.get('window').height,
-      size: Math.random() * 2 + 1,
+      size: Math.random() * 2 + 2,
       opacity: Math.random() * 0.8 + 0.2,
     });
   }
   return stars;
 };
 
-const SplashScreen2 = () => {
+
+const SplashScreen1 = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const stars = generateStars(100);
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000" />
-       <LinearGradient
-                   colors={['#000000', '#1a237e', '#000000']}
-                   start={{x: 0.3, y: -1}}
-                   end={{x: 1, y: 0.6}}
-                   style={styles.gradient}>
-                   {stars.map((star, index) => (
-                     <View
-                       key={index}
-                       style={[
-                         styles.star,
-                         {
-                           left: star.left,
-                           top: star.top,
-                           width: star.size,
-                           height: star.size,
-                           opacity: star.opacity,
-                         },
-                       ]}
-                     />
-                   ))}
+      <LinearGradient
+        colors={['#000000', '#1a237e', '#000000']}
+        start={{x: 0.3, y: -1}}
+        end={{x: 1, y: 0.6}}
+        style={styles.gradient}>
+        {stars.map((star, index) => (
+          <View
+            key={index}
+            style={[
+              styles.star,
+              {
+                left: star.left,
+                top: star.top,
+                width: star.size,
+                height: star.size,
+                opacity: star.opacity,
+              },
+            ]}
+          />
+        ))}
 
         <TouchableOpacity
           style={styles.logoWrapper}
           onPress={() => {
-            navigation.replace('SplashScreen1');
+            navigation.replace('SplashScreen');
           }}>
           <Image
             source={require('../assets/images/image.png')}
@@ -72,36 +74,30 @@ const SplashScreen2 = () => {
 
         <View style={styles.container1}>
           <Image
-            source={require('../assets/images/image4.png')}
+            source={require('../assets/images/image1.png')}
             style={styles.backgroundPattern}
             resizeMode="contain"
           />
-
-          <View style={styles.image6Wrapper}>
-            <Image
-              source={require('../assets/images/image6.png')}
-              style={styles.image6}
-              resizeMode="contain"
-            />
-          </View>
         </View>
 
         <View style={styles.textContainer}>
-          <Text style={styles.heading}>AI Isused In Many Industries.</Text>
+          <Text style={styles.heading}>
+            AI Helps Machines Think Like Humans.
+          </Text>
           <Text style={styles.subheading}>
-            aI revolutionizes industries, enhancing
+            Empowering machines with human-like
           </Text>
           <Text style={styles.subheading1}>
-            efficiency, innovation, and intelligence
+            intelligence for smarter,faster, and more
           </Text>
-          <Text style={styles.subheading2}>across every sector worldwide</Text>
+          <Text style={styles.subheading2}>intuitive decisions every day.</Text>
         </View>
 
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('SplashScreen3')}>
+          onPress={() => navigation.navigate('SplashScreen2')}>
           <Image
-            source={require('../assets/images/image3.png')}
+            source={require('../assets/images/image2.png')}
             style={styles.arrow}
           />
         </TouchableOpacity>
@@ -124,23 +120,9 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   backgroundPattern: {
-    marginBottom: '20%',
-    height: 410,
-    width: 400,
+    marginBottom: '60%',
+    marginRight: '45%',
   },
-  image6Wrapper: {
-    position: 'absolute',
-    top: '35%',
-    left: 0,
-    right: 0,
-    alignItems: 'center',
-    zIndex: 2,
-  },
-  image6: {
-    width: 72,
-    height: 72,
-  },
-
   star: {
     position: 'absolute',
     backgroundColor: '#ffffff',
@@ -167,14 +149,14 @@ const styles = StyleSheet.create({
   },
   heading: {
     color: '#fff',
-    fontSize: 31,
+    fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 12,
   },
   subheading: {
     color: '#ECECECE0',
-    fontSize: 19,
+    fontSize: 18,
     height: 20,
     width: '150%',
     textAlign: 'center',
@@ -182,7 +164,7 @@ const styles = StyleSheet.create({
   },
   subheading1: {
     color: '#ECECECE0',
-    fontSize: 19,
+    fontSize: 18,
     height: 20,
     width: '150%',
     textAlign: 'center',
@@ -190,11 +172,11 @@ const styles = StyleSheet.create({
   },
   subheading2: {
     color: '#ECECECE0',
-    fontSize: 19,
+    fontSize: 18,
     height: 20,
     width: '150%',
     textAlign: 'center',
-    marginBottom: -10,
+    marginBottom: 5,
   },
   button: {
     width: 55,
@@ -213,4 +195,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SplashScreen2;
+export default SplashScreen1;

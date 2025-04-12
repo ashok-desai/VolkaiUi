@@ -70,7 +70,7 @@ const SignUpScreen = () => {
             style={styles.logoWrapper}
             onPress={() => navigation.replace('SplashScreen3')}>
             <Image
-              source={require('../assets/images/image.png')}
+              source={require('../../assets/images/image.png')}
               style={styles.logo}
               resizeMode="contain"
             />
@@ -79,7 +79,7 @@ const SignUpScreen = () => {
 
         <View style={styles.content}>
           <Image
-            source={require('../assets/images/image7.png')}
+            source={require('../../assets/images/image7.png')}
             style={styles.image}
           />
           <View style={styles.textBlock}>
@@ -114,7 +114,7 @@ const SignUpScreen = () => {
             />
             <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
               <Image
-                source={require('../assets/images/icon.png')}
+                source={require('../../assets/images/icon.png')}
                 style={styles.icon}
                 resizeMode="contain"
               />
@@ -132,7 +132,7 @@ const SignUpScreen = () => {
             <TouchableOpacity
               onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
               <Image
-                source={require('../assets/images/icon.png')}
+                source={require('../../assets/images/icon.png')}
                 style={styles.icon}
                 resizeMode="contain"
               />
