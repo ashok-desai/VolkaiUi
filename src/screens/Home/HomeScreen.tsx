@@ -15,7 +15,6 @@ import {
   Keyboard,
   FlatList,
   Linking,
-  InteractionManager,
 } from 'react-native';
 import {v4 as uuidv4} from 'uuid';
 import Clipboard from '@react-native-clipboard/clipboard';

@@ -71,7 +71,6 @@ const SplashScreen1 = () => {
           />
         </TouchableOpacity>
 
-        {/* This view contains image1 and backgroundimage side-by-side */}
         <View style={styles.sideImagesWrapper}>
           <Image
             source={require('../assets/images/image1.png')}
