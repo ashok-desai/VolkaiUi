@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
+  ScrollView,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -19,6 +20,9 @@ const AccountScreen: React.FC<CustomDrawerContentProps> = ({
   const handleLogout = () => {
     navigation.navigate('LoginScreen');
   };
+  const handleGoBack = () => {
+    navigation.goBack();
+  };
   return (
     <LinearGradient
       colors={['#000000', '#1a237e', '#000000']}
@@ -26,7 +30,11 @@ const AccountScreen: React.FC<CustomDrawerContentProps> = ({
       end={{x: 4, y: 0.5}}
       style={styles.container}>
       <View style={styles.topBox}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleGoBack}
+          style={styles.backButton}
+          activeOpacity={0.6}
+          hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}>
           <Image
             source={require('../../assets/images/lefticon.png')}
             style={styles.leftIcon}
@@ -34,137 +42,142 @@ const AccountScreen: React.FC<CustomDrawerContentProps> = ({
         </TouchableOpacity>
         <Text style={styles.title}>Account</Text>
       </View>
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}>
+        <View style={styles.imageContainer}>
+          <View style={styles.profileWrapper}>
+            <LinearGradient
+              colors={['#F38835', '#C02D2B']}
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 1}}
+              style={styles.gradientBorder}>
+              <Image
+                source={require('../../assets/images/volkai2.png')}
+                style={styles.volkaiImage}
+                resizeMode="cover"
+              />
+            </LinearGradient>
 
-      <View style={styles.imageContainer}>
-        <View style={styles.profileWrapper}>
-          <LinearGradient
-            colors={['#F38835', '#C02D2B']}
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 1}}
-            style={styles.gradientBorder}>
+            <TouchableOpacity style={styles.editIconWrapper}>
+              <Image
+                source={require('../../assets/images/editimage1.png')}
+                style={styles.editIcon}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.text}>Ashok Desai</Text>
+          <View style={styles.image16Wrapper}>
             <Image
-              source={require('../../assets/images/volkai2.png')}
-              style={styles.volkaiImage}
-              resizeMode="cover"
-            />
-          </LinearGradient>
-
-          <TouchableOpacity style={styles.editIconWrapper}>
-            <Image
-              source={require('../../assets/images/editimage1.png')}
-              style={styles.editIcon}
+              source={require('../../assets/images/image16.png')}
+              style={styles.image16}
               resizeMode="contain"
             />
-          </TouchableOpacity>
+            <TouchableOpacity>
+              <Text style={styles.text1}>Contact Us</Text>
+            </TouchableOpacity>
+            <Image
+              source={require('../../assets/images/image17.png')}
+              style={styles.image17}
+              resizeMode="contain"
+            />
+            <TouchableOpacity>
+              <Text style={styles.text2}>Whatsapp Support</Text>
+            </TouchableOpacity>
+            <Image
+              source={require('../../assets/images/image18.png')}
+              style={styles.image18}
+              resizeMode="contain"
+            />
+            <TouchableOpacity>
+              <Text style={styles.text3}>FAQ</Text>
+            </TouchableOpacity>
+            <Image
+              source={require('../../assets/images/image19.png')}
+              style={styles.image19}
+              resizeMode="contain"
+            />
+            <TouchableOpacity>
+              <Text style={styles.text4}>Grievance Support</Text>
+            </TouchableOpacity>
+            <Image
+              source={require('../../assets/images/image20.png')}
+              style={styles.image20}
+              resizeMode="contain"
+            />
+            <TouchableOpacity>
+              <Text style={styles.text5}>Privacy Policy </Text>
+            </TouchableOpacity>
+            <Image
+              source={require('../../assets/images/image21.png')}
+              style={styles.image21}
+              resizeMode="contain"
+            />
+            <TouchableOpacity>
+              <Text style={styles.text6}>Refund & Cancellation Policy</Text>
+            </TouchableOpacity>
+            <Image
+              source={require('../../assets/images/image22.png')}
+              style={styles.image22}
+              resizeMode="contain"
+            />
+            <TouchableOpacity>
+              <Text style={styles.text7}>Terms and Conditions</Text>
+            </TouchableOpacity>
+            <Image
+              source={require('../../assets/images/image23.png')}
+              style={styles.image23}
+              resizeMode="contain"
+            />
+            <TouchableOpacity>
+              <Text style={styles.text8}>Report Content</Text>
+            </TouchableOpacity>
+            <Image
+              source={require('../../assets/images/image24.png')}
+              style={styles.image24}
+              resizeMode="contain"
+            />
+            <TouchableOpacity>
+              <Text style={styles.text9}>Rate us</Text>
+            </TouchableOpacity>
+            <Image
+              source={require('../../assets/images/image25.png')}
+              style={styles.image25}
+              resizeMode="contain"
+            />
+            <TouchableOpacity>
+              <Text style={styles.text10}>App share</Text>
+            </TouchableOpacity>
+            <Image
+              source={require('../../assets/images/image26.png')}
+              style={styles.image26}
+              resizeMode="contain"
+            />
+            <TouchableOpacity>
+              <Text style={styles.text11}>About Us</Text>
+            </TouchableOpacity>
+            <Image
+              source={require('../../assets/images/delete.png')}
+              style={styles.delete}
+              resizeMode="contain"
+            />
+            <TouchableOpacity>
+              <Text style={styles.text12}>Delete Account</Text>
+            </TouchableOpacity>
+            <Image
+              source={require('../../assets/images/logout1.png')}
+              style={styles.logout}
+              resizeMode="contain"
+            />
+            <TouchableOpacity
+              onPress={handleLogout}
+              style={styles.logoutButton}>
+              <Text style={styles.text13}>Logout</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <Text style={styles.text}>Ashok Desai</Text>
-        <View style={styles.image16Wrapper}>
-          <Image
-            source={require('../../assets/images/image16.png')}
-            style={styles.image16}
-            resizeMode="contain"
-          />
-          <TouchableOpacity>
-            <Text style={styles.text1}>Contact Us</Text>
-          </TouchableOpacity>
-          <Image
-            source={require('../../assets/images/image17.png')}
-            style={styles.image17}
-            resizeMode="contain"
-          />
-          <TouchableOpacity>
-            <Text style={styles.text2}>Whatsapp Support</Text>
-          </TouchableOpacity>
-          <Image
-            source={require('../../assets/images/image18.png')}
-            style={styles.image18}
-            resizeMode="contain"
-          />
-          <TouchableOpacity>
-            <Text style={styles.text3}>FAQ</Text>
-          </TouchableOpacity>
-          <Image
-            source={require('../../assets/images/image19.png')}
-            style={styles.image19}
-            resizeMode="contain"
-          />
-          <TouchableOpacity>
-            <Text style={styles.text4}>Grievance Support</Text>
-          </TouchableOpacity>
-          <Image
-            source={require('../../assets/images/image20.png')}
-            style={styles.image20}
-            resizeMode="contain"
-          />
-          <TouchableOpacity>
-            <Text style={styles.text5}>Privacy Policy </Text>
-          </TouchableOpacity>
-          <Image
-            source={require('../../assets/images/image21.png')}
-            style={styles.image21}
-            resizeMode="contain"
-          />
-          <TouchableOpacity>
-            <Text style={styles.text6}>Refund & Cancellation Policy</Text>
-          </TouchableOpacity>
-          <Image
-            source={require('../../assets/images/image22.png')}
-            style={styles.image22}
-            resizeMode="contain"
-          />
-          <TouchableOpacity>
-            <Text style={styles.text7}>Terms and Conditions</Text>
-          </TouchableOpacity>
-          <Image
-            source={require('../../assets/images/image23.png')}
-            style={styles.image23}
-            resizeMode="contain"
-          />
-          <TouchableOpacity>
-            <Text style={styles.text8}>Report Content</Text>
-          </TouchableOpacity>
-          <Image
-            source={require('../../assets/images/image24.png')}
-            style={styles.image24}
-            resizeMode="contain"
-          />
-          <TouchableOpacity>
-            <Text style={styles.text9}>Rate us</Text>
-          </TouchableOpacity>
-          <Image
-            source={require('../../assets/images/image25.png')}
-            style={styles.image25}
-            resizeMode="contain"
-          />
-          <TouchableOpacity>
-            <Text style={styles.text10}>App share</Text>
-          </TouchableOpacity>
-          <Image
-            source={require('../../assets/images/image26.png')}
-            style={styles.image26}
-            resizeMode="contain"
-          />
-          <TouchableOpacity>
-            <Text style={styles.text11}>About Us</Text>
-          </TouchableOpacity>
-          <Image
-            source={require('../../assets/images/delete.png')}
-            style={styles.delete}
-            resizeMode="contain"
-          />
-          <TouchableOpacity>
-            <Text style={styles.text12}>Delete Account</Text>
-          </TouchableOpacity>
-          <Image
-            source={require('../../assets/images/logout1.png')}
-            style={styles.logout}
-            resizeMode="contain"
-          />
-           <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
-            <Text style={styles.text13}>Logout</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      </ScrollView>
     </LinearGradient>
   );
 };
@@ -185,6 +198,10 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     borderColor: 'rgba(255,255,255,0.2)',
   },
+  backButton: {
+    padding: 10,
+    marginLeft: -15,
+  },
   leftIcon: {
     width: 20,
     height: 20,
@@ -197,6 +214,10 @@ const styles = StyleSheet.create({
     color: '#FFF',
     marginLeft: 20,
   },
+  scrollContainer: {
+    paddingBottom: 60,
+  },
+
   imageContainer: {
     marginTop: 10,
     alignItems: 'center',
@@ -224,7 +245,7 @@ const styles = StyleSheet.create({
     height: 30,
   },
   text: {
-    color: 'white',
+    color: '#FFFFFF',
     marginTop: 10,
     fontWeight: 'bold',
     fontSize: 26,
@@ -243,7 +264,7 @@ const styles = StyleSheet.create({
     marginTop: 0,
   },
   text1: {
-    color: 'white',
+    color: '#FFFFFF',
     marginLeft: 30,
     marginTop: -27,
     fontWeight: '400',
@@ -257,7 +278,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   text2: {
-    color: 'white',
+    color: '#FFFFFF',
     marginLeft: 30,
     marginTop: -27,
     fontWeight: '400',
@@ -271,7 +292,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   text3: {
-    color: 'white',
+    color: '#FFFFFF',
     marginLeft: 30,
     marginTop: -27,
     fontWeight: '400',
@@ -285,7 +306,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   text4: {
-    color: 'white',
+    color: '#FFFFFF',
     marginLeft: 30,
     marginTop: -27,
     fontWeight: '400',
@@ -299,7 +320,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   text5: {
-    color: 'white',
+    color: '#FFFFFF',
     marginLeft: 30,
     marginTop: -27,
     fontWeight: '400',
@@ -313,7 +334,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   text6: {
-    color: 'white',
+    color: '#FFFFFF',
     marginLeft: 30,
     marginTop: -27,
     fontWeight: '400',
@@ -327,7 +348,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   text7: {
-    color: 'white',
+    color: '#FFFFFF',
     marginLeft: 30,
     marginTop: -27,
     fontWeight: '400',
@@ -341,7 +362,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   text8: {
-    color: 'white',
+    color: '#FFFFFF',
     marginLeft: 30,
     marginTop: -27,
     fontWeight: '400',
@@ -355,7 +376,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   text9: {
-    color: 'white',
+    color: '#B5ACA7',
     marginLeft: 30,
     marginTop: -27,
     fontWeight: '400',
@@ -369,7 +390,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   text10: {
-    color: 'white',
+    color: '#FFFFFF',
     marginLeft: 30,
     marginTop: -27,
     fontWeight: '400',
@@ -383,7 +404,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   text11: {
-    color: 'white',
+    color: '#FFFFFF',
     marginLeft: 30,
     marginTop: -27,
     fontWeight: '400',
@@ -412,8 +433,8 @@ const styles = StyleSheet.create({
   },
   text13: {
     color: '#FF1414',
-    marginLeft: 30,
-    marginTop: -27,
+    marginLeft: 42,
+    marginTop: -33,
     fontWeight: '400',
     fontSize: 19,
     lineHeight: 26,

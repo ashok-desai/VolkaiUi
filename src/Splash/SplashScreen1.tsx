@@ -31,7 +31,6 @@ const generateStars = (count: number) => {
   return stars;
 };
 
-
 const SplashScreen1 = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const stars = generateStars(100);
@@ -72,10 +71,16 @@ const SplashScreen1 = () => {
           />
         </TouchableOpacity>
 
-        <View style={styles.container1}>
+        {/* This view contains image1 and backgroundimage side-by-side */}
+        <View style={styles.sideImagesWrapper}>
           <Image
             source={require('../assets/images/image1.png')}
-            style={styles.backgroundPattern}
+            style={styles.image1}
+            resizeMode="contain"
+          />
+          <Image
+            source={require('../assets/images/image1backgroundimage.png')}
+            style={styles.backgroundImage}
             resizeMode="contain"
           />
         </View>
@@ -105,6 +110,7 @@ const SplashScreen1 = () => {
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -115,13 +121,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     paddingBottom: 60,
-  },
-  container1: {
-    position: 'relative',
-  },
-  backgroundPattern: {
-    marginBottom: '60%',
-    marginRight: '45%',
   },
   star: {
     position: 'absolute',
@@ -140,6 +139,24 @@ const styles = StyleSheet.create({
   logo: {
     width: '100%',
     height: '100%',
+  },
+  sideImagesWrapper: {
+    flexDirection: 'row',
+    marginBottom: '45%',
+    marginRight: '30%',
+    zIndex: 2,
+  },
+  image1: {
+    width: 220,
+    height: 220,
+    marginLeft: 270,
+  },
+  backgroundImage: {
+    width: '190%',
+    height: '190%',
+    marginLeft: -200,
+    marginTop: -100,
+    tintColor: '#1468CF',
   },
   textContainer: {
     paddingHorizontal: 25,

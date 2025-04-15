@@ -68,7 +68,9 @@ const CustomDrawerContent: React.FC<CustomDrawerContentProps> = ({
             style={styles.image3}
           />
           <Text style={styles.text2}>Volkai HR</Text>
-          <TouchableOpacity>
+          <TouchableOpacity
+            style={styles.touchArea1}
+            onPress={() => navigation.navigate('AiPoweredInterView')}>
             <Image
               source={require('../../assets/images/righticon.png')}
               style={styles.image4}
@@ -155,6 +157,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 140,
     right: -5,
+    padding: 15,
+  },
+  touchArea1: {
+    position: 'absolute',
+    top: 180,
+    right: -12,
     padding: 15,
   },
   image2: {
@@ -262,8 +270,8 @@ const styles = StyleSheet.create({
   image5: {
     marginTop: '50%',
     marginLeft: -5,
-    width: 62,
-    height: 62,
+    width: 52,
+    height: 52,
     borderRadius: 30,
     borderWidth: 2,
     borderColor: '#F38835',
@@ -276,14 +284,14 @@ const styles = StyleSheet.create({
   text11: {
     fontSize: 29,
     fontWeight: 'bold',
-    marginTop: -50,
+    marginTop: -47,
     marginLeft: '25%',
     color: '#FFF',
     textShadowRadius: 2,
   },
   image6: {
-    width: 65,
-    height: 65,
+    width: 55,
+    height: 55,
     marginLeft: '82%',
   },
   logoutButton: {

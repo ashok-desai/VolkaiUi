@@ -11,8 +11,10 @@ import LoginScreen from './src/screens/Auth/LoginScreen';
 import ForgotPasswordScreen from './src/screens/Auth/ForgotPasswordScreen';
 import VerifyOtpScreen from './src/screens/Auth/VerifyOtpScreen';
 import VerifyOtpScreen1 from './src/screens/Auth/VerifyOtpScreen1';
-import DrawerNavigation from './src/components/drawer/DrawerNavigation';
+import DrawerNavigation from './src/navigations/Drawer/DrawerNavigation';
 import AccountScreen from './src/screens/Account/AccountScreen';
+import AiPoweredInterView from './src/screens/Account/AiPoweredInterView';
+import StartInterview from './src/screens/Account/StartInterview';
 
 const Stack = createNativeStackNavigator();
 function App() {
@@ -33,6 +35,11 @@ function App() {
         <Stack.Screen name="VerifyOtpScreen1" component={VerifyOtpScreen1} />
         <Stack.Screen name="Main" component={DrawerNavigation} />
         <Stack.Screen name="AccountScreen" component={AccountScreen} />
+        <Stack.Screen
+          name="AiPoweredInterView"
+          component={AiPoweredInterView}
+        />
+        <Stack.Screen name="StartInterview" component={StartInterview} />
       </Stack.Navigator>
     </NavigationContainer>
   );
