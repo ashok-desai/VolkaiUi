@@ -15,6 +15,9 @@ import DrawerNavigation from './src/navigations/Drawer/DrawerNavigation';
 import AccountScreen from './src/screens/Account/AccountScreen';
 import AiPoweredInterView from './src/screens/Account/AiPoweredInterView';
 import StartInterview from './src/screens/Account/StartInterview';
+import PreviousInterview from './src/screens/Account/PreviousInterview';
+import AiCareerAdvisor from './src/screens/Account/AiCareerAdvisor';
+import PrepareWithAi from './src/screens/Account/PrepareWithAi';
 
 const Stack = createNativeStackNavigator();
 function App() {
@@ -40,6 +43,9 @@ function App() {
           component={AiPoweredInterView}
         />
         <Stack.Screen name="StartInterview" component={StartInterview} />
+        <Stack.Screen name="PreviousInterview" component={PreviousInterview} />
+        <Stack.Screen name="AiCareerAdvisor" component={AiCareerAdvisor} />
+        <Stack.Screen name="PrepareWithAi" component={PrepareWithAi} />
       </Stack.Navigator>
     </NavigationContainer>
   );

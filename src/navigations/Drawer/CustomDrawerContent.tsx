@@ -4,15 +4,14 @@ import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-type NavigationProp = NativeStackNavigationProp<
-  {
-    AccountScreen: undefined;
-    AiPoweredInterView: undefined;
-    LoginScreen: undefined;
-  },
-  'AccountScreen' | 'AiPoweredInterView' | 'LoginScreen'
->;
-
+type NavigationProp = NativeStackNavigationProp<{
+  AccountScreen: undefined;
+  AiPoweredInterView: undefined;
+  PreviousInterview: undefined;
+  AiCareerAdvisor: undefined;
+  PrepareWithAi: undefined;
+  LoginScreen: undefined;
+}>;
 const CustomDrawerContent: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
 
@@ -73,7 +72,10 @@ const CustomDrawerContent: React.FC = () => {
           <Text style={styles.text3}>Live Interview (Beta)</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.boxContainer3}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('PreviousInterview')}
+          activeOpacity={0.8}
+          style={styles.boxContainer3}>
           <Image
             source={require('../../assets/images/image30.png')}
             style={styles.image5}
@@ -87,6 +89,8 @@ const CustomDrawerContent: React.FC = () => {
           end={{x: 1, y: 1}}
           style={styles.boxContainer4}>
           <TouchableOpacity
+            onPress={() => navigation.navigate('PrepareWithAi')}
+            activeOpacity={0.8}
             style={{flexDirection: 'row', alignItems: 'center'}}>
             <Image
               source={require('../../assets/images/image31.png')}
@@ -96,7 +100,10 @@ const CustomDrawerContent: React.FC = () => {
           </TouchableOpacity>
         </LinearGradient>
         <Text style={styles.text6}>Career Tools</Text>
-        <TouchableOpacity style={styles.boxContainer5}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('AiCareerAdvisor')}
+          activeOpacity={0.8}
+          style={styles.boxContainer5}>
           <Image
             source={require('../../assets/images/image32.png')}
             style={styles.image7}
@@ -455,12 +462,12 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
   },
-  image13:{
-    marginLeft:'72%',
-    marginTop:-38,
-    width:50,
-    height:50
-  }
+  image13: {
+    marginLeft: '72%',
+    marginTop: -38,
+    width: 50,
+    height: 50,
+  },
 });
 
 export default CustomDrawerContent;
