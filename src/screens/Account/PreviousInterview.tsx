@@ -1,10 +1,72 @@
-import React from 'react';
-import {View, Text, StyleSheet, Image, Dimensions} from 'react-native';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+  Animated,
+  ScrollView,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 const {width} = Dimensions.get('window');
 
 const PreviousInterview = () => {
+  const [showUpperText, setShowUpperText] = useState(false);
+  const [showLowerText1, setShowLowerText1] = useState(false);
+  const [showLowerText2, setShowLowerText2] = useState(false);
+
+  const upperRotation = useState(new Animated.Value(0))[0];
+  const lowerRotation1 = useState(new Animated.Value(0))[0];
+  const lowerRotation2 = useState(new Animated.Value(0))[0];
+
+  const handleUpperImagePress = () => {
+    const newShowUpperText = !showUpperText;
+    setShowUpperText(newShowUpperText);
+    Animated.timing(upperRotation, {
+      toValue: newShowUpperText ? 1 : 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const handleLowerImagePress1 = () => {
+    const newShow = !showLowerText1;
+    setShowLowerText1(newShow);
+    Animated.timing(lowerRotation1, {
+      toValue: newShow ? 1 : 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const handleLowerImagePress2 = () => {
+    const newShow = !showLowerText2;
+    setShowLowerText2(newShow);
+    Animated.timing(lowerRotation2, {
+      toValue: newShow ? 1 : 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const upperRotateInterpolation = upperRotation.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '-180deg'],
+  });
+
+  const lowerRotateInterpolation1 = lowerRotation1.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '-180deg'],
+  });
+
+  const lowerRotateInterpolation2 = lowerRotation2.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '-180deg'],
+  });
+
   return (
     <LinearGradient
       colors={['#000000', '#1a237e', '#000000']}
@@ -55,17 +117,138 @@ const PreviousInterview = () => {
           </LinearGradient>
           <Text style={styles.text4}>Keywords</Text>
         </View>
-        <View style={styles.container1}>
+
+        <ScrollView
+          style={styles.container1}
+          contentContainerStyle={{paddingBottom: 20}}
+          showsVerticalScrollIndicator={false}>
           <Image
             source={require('../../assets/images/image27.png')}
             style={styles.image1}
           />
           <Text style={styles.text5}>Strengths</Text>
+
+          <TouchableOpacity onPress={handleUpperImagePress}>
+            <Animated.Image
+              source={require('../../assets/images/image38.png')}
+              style={[
+                styles.image2,
+                {transform: [{rotate: upperRotateInterpolation}]},
+              ]}
+            />
+          </TouchableOpacity>
+
+          {showUpperText && (
+            <View style={styles.textBlock}>
+              <Text style={styles.clickText}>
+                <Text style={styles.dot}>• </Text>
+                {'  '}Clear listing of progressive job titles
+              </Text>
+              <Text style={styles.clickText}>
+                <Text style={styles.dot}>• </Text>
+                {'  '}Diverse set of skills aligned with various roles
+              </Text>
+              <Text style={styles.clickText}>
+                <Text style={styles.dot}>• </Text>
+                {'  '}Entrepreneurial experience highlighted
+              </Text>
+            </View>
+          )}
+
           <Image
-          source={require('../../assets/images/image38.png')} 
-              style={styles.image2}
-           />
-        </View>
+            source={require('../../assets/images/image39.png')}
+            style={styles.image1}
+          />
+          <Text style={styles.text5}>Weaknesses</Text>
+
+          <TouchableOpacity onPress={handleLowerImagePress1}>
+            <Animated.Image
+              source={require('../../assets/images/image38.png')}
+              style={[
+                styles.image2,
+                {transform: [{rotate: lowerRotateInterpolation1}]},
+              ]}
+            />
+          </TouchableOpacity>
+
+          {showLowerText1 && (
+            <View style={styles.textBlock}>
+              <Text style={styles.clickText}>
+                <Text style={styles.dot1}>• </Text>
+                {'  '}Incomplete educational details
+              </Text>
+              <Text style={styles.clickText}>
+                <Text style={styles.dot1}>• </Text>
+                {'  '}Use of 'N/A' instead of providing specific
+              </Text>
+              <Text style={styles.clickText1}>
+                dates or simply leaving unspecified
+              </Text>
+              <Text style={styles.clickText}>
+                <Text style={styles.dot1}>• </Text>
+                {'  '}Lack of specific key achievements or metrics
+              </Text>
+              <Text style={styles.clickText1}>in role descriptions</Text>
+            </View>
+          )}
+
+          <Image
+            source={require('../../assets/images/image40.png')}
+            style={styles.image1}
+          />
+          <Text style={styles.text5}>Improvement Suggestions</Text>
+
+          <TouchableOpacity onPress={handleLowerImagePress2}>
+            <Animated.Image
+              source={require('../../assets/images/image38.png')}
+              style={[
+                styles.image2,
+                {transform: [{rotate: lowerRotateInterpolation2}]},
+              ]}
+            />
+          </TouchableOpacity>
+
+          {showLowerText2 && (
+            <View style={styles.textBlock}>
+              <Text style={styles.clickText}>
+                <Text style={styles.dot2}>1 </Text>
+                {'  '}Include specific employment dates to
+              </Text>
+              <Text style={styles.clickText2}>
+                show the duration of employment at
+              </Text>
+              <Text style={styles.clickText3}> each company.</Text>
+              <Text style={styles.clickText}>
+                <Text style={styles.dot2}>2 </Text>
+                {'  '}Add detailed descriptions of projects,
+              </Text>
+              <Text style={styles.clickText4}>
+                responsibilities, and achievements in the
+              </Text>
+              <Text style={styles.clickText5}>
+                experience section to provide context
+              </Text>
+              <Text style={styles.clickText6}>and demonstrate impact.</Text>
+              <Text style={styles.clickText}>
+                <Text style={styles.dot2}>3 </Text>
+                {'  '}Provide examples of how you have
+              </Text>
+              <Text style={styles.clickText2}>
+                effectively used your soft skills such as
+              </Text>
+              <Text style={styles.clickText2}>
+                communication or teamwork in
+              </Text>
+              <Text style={styles.clickText2}>professional settings.</Text>
+              <Text style={styles.clickText}>
+                <Text style={styles.dot2}>4 </Text>
+                {'  '}Match more key skills and technologies
+              </Text>
+              <Text style={styles.clickText2}>specifically required in the job rolesyou</Text>
+              <Text style={styles.clickText2}>are applying for.</Text>
+            </View>
+          )}
+        </ScrollView>
       </View>
     </LinearGradient>
   );
@@ -163,14 +346,13 @@ const styles = StyleSheet.create({
     width: '106%',
     marginTop: 10,
     backgroundColor: 'rgba(104, 109, 122, 0.83)',
-    borderRadius: 12,
+    borderRadius: 8,
     borderWidth: 1,
     padding: 15,
     flexDirection: 'row',
     alignItems: 'center',
     marginLeft: -12,
   },
-
   gradientMessageBox: {
     height: 45,
     width: 150,
@@ -179,7 +361,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: -8,
   },
-
   analysisText: {
     color: '#FFFFFF',
     fontWeight: '700',
@@ -192,25 +373,102 @@ const styles = StyleSheet.create({
     lineHeight: 26,
     marginLeft: 60,
   },
-  container1:{
-    flex:1,
-    padding:20
+  container1: {
+    flex: 1,
+    padding: 20,
   },
-  image1:{
-    marginTop:10,
-    marginLeft:-25
+  image1: {
+    marginTop: 10,
+    marginLeft: -20,
   },
-  text5:{
-    color:'#FFFFFF',
-    fontWeight:'700',
-    fontSize:17,
-    marginLeft:15,
-    marginTop:-20
+  text5: {
+    color: '#FFFFFF',
+    fontWeight: '700',
+    fontSize: 17,
+    marginLeft: 15,
+    marginTop: -20,
   },
-  image2:{
-    marginLeft:'100%',
-    marginTop:-12
-  }
+  image2: {
+    width: 25,
+    height: 15,
+    marginTop: -16,
+    marginLeft: '95%',
+  },
+  textBlock: {
+    marginTop: 20,
+    marginLeft: 10,
+  },
+  clickText: {
+    color: '#BABABA',
+    fontSize: 13,
+    fontWeight: '400',
+    lineHeight: 21,
+    marginBottom: 4,
+    marginLeft: -10,
+  },
+  clickText1: {
+    color: '#BABABA',
+    fontSize: 13,
+    fontWeight: '400',
+    lineHeight: 21,
+    marginBottom: 4,
+  },
+  clickText2: {
+    color: '#BABABA',
+    fontSize: 13,
+    fontWeight: '400',
+    lineHeight: 21,
+    marginBottom: 4,
+    marginLeft: 8,
+  },
+  clickText3: {
+    color: '#BABABA',
+    fontSize: 13,
+    fontWeight: '400',
+    lineHeight: 21,
+    marginBottom: 4,
+    marginLeft: 5,
+  },
+  clickText4: {
+    color: '#BABABA',
+    fontSize: 13,
+    fontWeight: '400',
+    lineHeight: 21,
+    marginBottom: 4,
+    marginLeft: 8,
+  },
+  clickText5: {
+    color: '#BABABA',
+    fontSize: 13,
+    fontWeight: '400',
+    lineHeight: 21,
+    marginBottom: 4,
+    marginLeft: 8,
+  },
+  clickText6: {
+    color: '#BABABA',
+    fontSize: 13,
+    fontWeight: '400',
+    lineHeight: 21,
+    marginBottom: 4,
+    marginLeft: 8,
+  },
+  dot: {
+    color: '#1CC84B',
+    fontSize: 14,
+    marginRight: 5,
+  },
+  dot1: {
+    color: '#DEA53A',
+    fontSize: 14,
+    marginRight: 5,
+  },
+  dot2: {
+    color: '#F16C0E',
+    fontWeight: 'bold',
+    fontSize: 14,
+    marginRight: 5,
+  },
 });
 
 export default PreviousInterview;
