@@ -8,15 +8,24 @@ type NavigationProp = NativeStackNavigationProp<{
   AccountScreen: undefined;
   AiPoweredInterView: undefined;
   PreviousInterview: undefined;
+  LiveInterviewBeta: undefined;
   AiCareerAdvisor: undefined;
   PrepareWithAi: undefined;
   LoginScreen: undefined;
+  AiResumeBuilder: undefined;
+  AiSmartJobApply: undefined;
+  ConnectWithHiringManagers: undefined;
+  GetDemo: undefined;
+  ProfileScreen: undefined;
 }>;
 const CustomDrawerContent: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
 
   const handleLogout = () => {
     navigation.navigate('LoginScreen');
+  };
+  const goToProfile = () => {
+    navigation.navigate('ProfileScreen');
   };
   return (
     <View style={{flex: 1}}>
@@ -64,7 +73,10 @@ const CustomDrawerContent: React.FC = () => {
           <Text style={styles.text2}>AI-Powered Interview</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.boxContainer2}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('LiveInterviewBeta')}
+          activeOpacity={0.8}
+          style={styles.boxContainer2}>
           <Image
             source={require('../../assets/images/image29.png')}
             style={styles.image4}
@@ -110,21 +122,30 @@ const CustomDrawerContent: React.FC = () => {
           />
           <Text style={styles.text7}>AI Career Advisor</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.boxContainer6}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('AiResumeBuilder')}
+          activeOpacity={0.8}
+          style={styles.boxContainer6}>
           <Image
             source={require('../../assets/images/image33.png')}
             style={styles.image8}
           />
           <Text style={styles.text8}>AI Resume Builder</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.boxContainer7}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('AiSmartJobApply')}
+          activeOpacity={0.8}
+          style={styles.boxContainer7}>
           <Image
             source={require('../../assets/images/image34.png')}
             style={styles.image9}
           />
           <Text style={styles.text9}>AI Smart Job Apply</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.boxContainer8}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('ConnectWithHiringManagers')}
+          activeOpacity={0.8}
+          style={styles.boxContainer8}>
           <Image
             source={require('../../assets/images/image35.png')}
             style={styles.image10}
@@ -133,24 +154,34 @@ const CustomDrawerContent: React.FC = () => {
           <Text style={styles.text11}> Managers</Text>
         </TouchableOpacity>
         <Text style={styles.text12}>Demo & Learning</Text>
-        <TouchableOpacity style={styles.boxContainer9}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('GetDemo')}
+          activeOpacity={0.8}
+          style={styles.boxContainer9}>
           <Image
             source={require('../../assets/images/image36.png')}
             style={styles.image11}
           />
           <Text style={styles.text13}>Get Demo</Text>
         </TouchableOpacity>
-        <Image
-          source={require('../../assets/images/image15.png')}
-          style={styles.image12}
-        />
-        <Text style={styles.text14}>Volkai</Text>
-        <TouchableOpacity onPress={handleLogout}>
-          <Image
-            source={require('../../assets/images/logout.png')}
-            style={styles.image13}
-          />
-        </TouchableOpacity>
+        <View style={{marginBottom: 20, alignItems: 'center'}}>
+          <TouchableOpacity onPress={goToProfile}>
+            <Image
+              source={require('../../assets/images/image15.png')}
+              style={styles.image12}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={{marginBottom: 20, alignItems: 'center'}}>
+          <Text style={styles.text14}>Volkai</Text>
+
+          <TouchableOpacity onPress={handleLogout}>
+            <Image
+              source={require('../../assets/images/logout.png')}
+              style={styles.image13}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -210,7 +241,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     width: '105%',
     height: 50,
-    backgroundColor: '#1B213159',
+    backgroundColor: '#252525',
+    borderColor: '#3A3F4D4F',
     borderRadius: 10,
     borderWidth: 1,
     alignItems: 'center',
@@ -239,7 +271,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     width: '105%',
     height: 50,
-    backgroundColor: '#1B213159',
+    backgroundColor: '#252525',
+    borderColor: '#3A3F4D4F',
     borderRadius: 10,
     borderWidth: 1,
     alignItems: 'center',
@@ -263,7 +296,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     width: '105%',
     height: 50,
-    backgroundColor: '#1B213159',
+    backgroundColor: '#252525',
+    borderColor: '#3A3F4D4F',
     borderRadius: 10,
     borderWidth: 1,
     alignItems: 'center',
@@ -316,7 +350,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     width: '105%',
     height: 50,
-    backgroundColor: '#1B213159',
+    backgroundColor: '#252525',
+    borderColor: '#3A3F4D4F',
     borderRadius: 10,
     borderWidth: 1,
     alignItems: 'center',
@@ -340,7 +375,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     width: '105%',
     height: 50,
-    backgroundColor: '#1B213159',
+    backgroundColor: '#252525',
+    borderColor: '#3A3F4D4F',
     borderRadius: 10,
     borderWidth: 1,
     alignItems: 'center',
@@ -364,7 +400,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     width: '105%',
     height: 50,
-    backgroundColor: '#1B213159',
+    backgroundColor: '#252525',
+    borderColor: '#3A3F4D4F',
     borderRadius: 10,
     borderWidth: 1,
     alignItems: 'center',
@@ -388,7 +425,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     width: '105%',
     height: 65,
-    backgroundColor: '#1B213159',
+    backgroundColor: '#252525',
+    borderColor: '#3A3F4D4F',
     borderRadius: 10,
     borderWidth: 1,
     alignItems: 'center',
@@ -424,7 +462,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     width: '105%',
     height: 50,
-    backgroundColor: '#1B213159',
+    backgroundColor: '#252525',
+    borderColor: '#3A3F4D4F',
     borderRadius: 10,
     borderWidth: 1,
     alignItems: 'center',
@@ -445,7 +484,7 @@ const styles = StyleSheet.create({
     marginTop: 60,
     width: 52,
     height: 52,
-    marginLeft: -10,
+    marginLeft: '-55%',
     borderRadius: 30,
     borderWidth: 2,
     borderColor: '#F38835',
@@ -457,14 +496,14 @@ const styles = StyleSheet.create({
   },
   text14: {
     color: '#FFFFFF',
-    marginLeft: 60,
-    marginTop: -45,
+    marginLeft: '-40%',
+    marginTop: -60,
     fontSize: 22,
     fontWeight: 'bold',
   },
   image13: {
-    marginLeft: '72%',
-    marginTop: -38,
+    marginLeft: '70%',
+    marginTop: -40,
     width: 50,
     height: 50,
   },

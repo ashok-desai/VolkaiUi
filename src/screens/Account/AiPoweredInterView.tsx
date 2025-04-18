@@ -27,6 +27,16 @@ const AiPoweredInterView = () => {
       start={{x: 0.4, y: -2}}
       end={{x: 3, y: 0.3}}
       style={styles.container}>
+      <TouchableOpacity
+        style={styles.leftIconContainer}
+        activeOpacity={0.7}
+        onPress={() => navigation.goBack()}>
+        <Image
+          source={require('../../assets/images/lefticon.png')}
+          style={styles.leftIcon}
+        />
+      </TouchableOpacity>
+
       <LinearGradient
         colors={['#F16C0E', '#C2312C']}
         start={{x: 0, y: 0}}
@@ -62,16 +72,19 @@ const AiPoweredInterView = () => {
           start={{x: 0.4, y: -4}}
           end={{x: 4, y: 0.2}}
           style={styles.innerBox}></LinearGradient>
+
         <View style={styles.textContainer1}>
           <Text style={styles.innerBoxTitle}>
             Welcome to AI Interview Assistant
           </Text>
           <Text style={styles.innerBoxTitle1}>Enter Job Description</Text>
+
           <View style={styles.descriptionBox}>
             <Text style={styles.descriptionBoxText}>
               Enter job description here.....
             </Text>
           </View>
+
           <View style={styles.descriptionBox1}>
             <View style={styles.descriptionBox2}>
               <Text style={styles.descriptionBox1Text}>CEO</Text>
@@ -111,10 +124,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    marginTop: -10,
   },
   gradientBorder: {
     position: 'absolute',
-    top: 50,
+    top: 60,
     right: 20,
     padding: 2,
     borderRadius: 30,
@@ -128,6 +142,17 @@ const styles = StyleSheet.create({
     width: 35,
     height: 35,
     borderRadius: 20,
+  },
+  leftIconContainer: {
+    position: 'absolute',
+    top: 68,
+    left: 15,
+    zIndex: 1,
+  },
+  leftIcon: {
+    width: 20,
+    height: 20,
+    resizeMode: 'contain',
   },
   container1: {
     flex: 1,

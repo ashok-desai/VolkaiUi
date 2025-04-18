@@ -12,16 +12,27 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import {useNavigation} from '@react-navigation/native'; 
 
 const {width} = Dimensions.get('window');
 
-const PrepareWithAi = () => {
+  const PrepareWithAi = () => {
+  const navigation = useNavigation();
   return (
     <LinearGradient
       colors={['#000000', '#1a237e', '#000000']}
       start={{x: 0.4, y: -2}}
       end={{x: 3, y: 0.3}}
       style={styles.container}>
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => navigation.goBack()}>
+        <Image
+          source={require('../../assets/images/lefticon.png')}
+          style={styles.backIcon}
+          resizeMode="contain"
+        />
+      </TouchableOpacity>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{flex: 1}}
@@ -160,6 +171,19 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
+  backButton: {
+    position: 'absolute',
+    top: 46,
+    left: 5,
+    zIndex: 10,
+    padding: 10,
+  },
+  backIcon: {
+    width: 25,
+    height: 25,
+    tintColor: '#FFFFFF',
+  },
+
   gradientBorder: {
     position: 'absolute',
     top: 30,

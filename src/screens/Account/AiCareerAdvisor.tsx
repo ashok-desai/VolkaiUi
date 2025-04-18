@@ -1,16 +1,33 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Dimensions,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 const {width} = Dimensions.get('window');
 
-const AiCareerAdvisor = () => {
+const AiCareerAdvisor = ({navigation}:any) => {
   return (
     <LinearGradient
       colors={['#000000', '#1a237e', '#000000']}
       start={{x: 0.4, y: -2}}
       end={{x: 3, y: 0.3}}
       style={styles.container}>
+      <TouchableOpacity
+        onPress={() => navigation.goBack()}
+        style={styles.leftIconWrapper}>
+        <Image
+          source={require('../../assets/images/lefticon.png')}
+          style={styles.leftIcon}
+        />
+      </TouchableOpacity>
+
       <LinearGradient
         colors={['#F16C0E', '#C2312C']}
         start={{x: 0, y: 0}}
@@ -85,28 +102,28 @@ const AiCareerAdvisor = () => {
             style={styles.image}
           />
         </View>
-         <View style={styles.inputContainer}>
-                  <View style={styles.inputWrapper}>
-                    <TextInput
-                      placeholder="Ask me anything..."
-                      placeholderTextColor="#CCCCCC"
-                      style={styles.textInput}
-                    />
-                    <TouchableOpacity activeOpacity={0.8} style={styles.iconWrapper}>
-                      <LinearGradient
-                        colors={['#F16C0E', '#C2312C']}
-                        start={{x: 0, y: 0}}
-                        end={{x: 1, y: 1}}
-                        style={styles.sendButton}>
-                        <Image
-                          source={require('../../assets/images/sendicon.png')}
-                          style={styles.sendIcon}
-                          resizeMode="contain"
-                        />
-                      </LinearGradient>
-                    </TouchableOpacity>
-                  </View>
-                </View>
+        <View style={styles.inputContainer}>
+          <View style={styles.inputWrapper}>
+            <TextInput
+              placeholder="Ask me anything..."
+              placeholderTextColor="#CCCCCC"
+              style={styles.textInput}
+            />
+            <TouchableOpacity activeOpacity={0.8} style={styles.iconWrapper}>
+              <LinearGradient
+                colors={['#F16C0E', '#C2312C']}
+                start={{x: 0, y: 0}}
+                end={{x: 1, y: 1}}
+                style={styles.sendButton}>
+                <Image
+                  source={require('../../assets/images/sendicon.png')}
+                  style={styles.sendIcon}
+                  resizeMode="contain"
+                />
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     </LinearGradient>
   );
@@ -116,6 +133,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+  },
+  leftIconWrapper: {
+    position: 'absolute',
+    top: 55,
+    left: 15,
+    zIndex: 10,
+  },
+  leftIcon: {
+    width: 20,
+    height: 20,
+    tintColor: '#FFFFFF',
   },
   gradientBorder: {
     position: 'absolute',
@@ -321,7 +349,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     paddingRight: 50,
     marginLeft: -15,
-    marginRight:-10
+    marginRight: -10,
   },
   iconWrapper: {
     position: 'absolute',

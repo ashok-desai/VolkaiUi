@@ -18,6 +18,12 @@ import StartInterview from './src/screens/Account/StartInterview';
 import PreviousInterview from './src/screens/Account/PreviousInterview';
 import AiCareerAdvisor from './src/screens/Account/AiCareerAdvisor';
 import PrepareWithAi from './src/screens/Account/PrepareWithAi';
+import LiveInterviewBeta from './src/screens/Account/LiveInterviewBeta';
+import AiResumeBuilder from './src/screens/Account/AiResumeBuilder';
+import AiSmartJobApply from './src/screens/Account/AiSmartJobApply';
+import ConnectWithHiringManagers from './src/screens/Account/ConnectWithHiringManagers';
+import GetDemo from './src/screens/Account/GetDemo';
+import ProfileScreen from './src/screens/Account/ProfileScreen';
 
 const Stack = createNativeStackNavigator();
 function App() {
@@ -43,9 +49,18 @@ function App() {
           component={AiPoweredInterView}
         />
         <Stack.Screen name="StartInterview" component={StartInterview} />
+        <Stack.Screen name="LiveInterviewBeta" component={LiveInterviewBeta} />
         <Stack.Screen name="PreviousInterview" component={PreviousInterview} />
-        <Stack.Screen name="AiCareerAdvisor" component={AiCareerAdvisor} />
         <Stack.Screen name="PrepareWithAi" component={PrepareWithAi} />
+        <Stack.Screen name="AiCareerAdvisor" component={AiCareerAdvisor} />
+        <Stack.Screen name="AiResumeBuilder" component={AiResumeBuilder} />
+        <Stack.Screen name="AiSmartJobApply" component={AiSmartJobApply} />
+        <Stack.Screen
+          name="ConnectWithHiringManagers"
+          component={ConnectWithHiringManagers}
+        />
+        <Stack.Screen name="GetDemo" component={GetDemo} />
+        <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
