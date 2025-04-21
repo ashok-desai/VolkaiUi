@@ -15,11 +15,12 @@ import {useNavigation} from '@react-navigation/native';
 const {width} = Dimensions.get('window');
 
 const PreviousInterview = () => {
+  const [activeTab, setActiveTab] = useState<'Analysis' | 'Keywords'>(
+    'Analysis',
+  );
   const [showUpperText, setShowUpperText] = useState(false);
   const [showLowerText1, setShowLowerText1] = useState(false);
   const [showLowerText2, setShowLowerText2] = useState(false);
-  const [showAnalysisContent, setShowAnalysisContent] = useState(false);
-  const [showAWSContent, setShowAWSContent] = useState(false); // New state to handle AWS content
 
   const upperRotation = useState(new Animated.Value(0))[0];
   const lowerRotation1 = useState(new Animated.Value(0))[0];
@@ -27,58 +28,25 @@ const PreviousInterview = () => {
 
   const navigation = useNavigation();
 
-  const handleUpperImagePress = () => {
-    const newShowUpperText = !showUpperText;
-    setShowUpperText(newShowUpperText);
-    Animated.timing(upperRotation, {
-      toValue: newShowUpperText ? 1 : 0,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  const handleLowerImagePress1 = () => {
-    const newShow = !showLowerText1;
-    setShowLowerText1(newShow);
-    Animated.timing(lowerRotation1, {
+  const handleImagePress = (
+    setter: React.Dispatch<React.SetStateAction<boolean>>,
+    rotation: Animated.Value,
+    show: boolean,
+  ) => {
+    const newShow = !show;
+    setter(newShow);
+    Animated.timing(rotation, {
       toValue: newShow ? 1 : 0,
       duration: 300,
       useNativeDriver: true,
     }).start();
   };
 
-  const handleLowerImagePress2 = () => {
-    const newShow = !showLowerText2;
-    setShowLowerText2(newShow);
-    Animated.timing(lowerRotation2, {
-      toValue: newShow ? 1 : 0,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  const handleAnalysisPress = () => {
-    setShowAnalysisContent(!showAnalysisContent);
-  };
-
-  const handleKeywordsPress = () => {
-    setShowAWSContent(!showAWSContent); // Toggle AWS content visibility
-  };
-
-  const upperRotateInterpolation = upperRotation.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '-180deg'],
-  });
-
-  const lowerRotateInterpolation1 = lowerRotation1.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '-180deg'],
-  });
-
-  const lowerRotateInterpolation2 = lowerRotation2.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '-180deg'],
-  });
+  const rotationStyle = (rotation: Animated.Value) =>
+    rotation.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0deg', '-180deg'],
+    });
 
   return (
     <LinearGradient
@@ -86,7 +54,6 @@ const PreviousInterview = () => {
       start={{x: 0.4, y: -2}}
       end={{x: 3, y: 0.3}}
       style={styles.container}>
-      {/* Back Button */}
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => navigation.goBack()}>
@@ -96,7 +63,6 @@ const PreviousInterview = () => {
         />
       </TouchableOpacity>
 
-      {/* Content */}
       <LinearGradient
         colors={['#F16C0E', '#C2312C']}
         start={{x: 0, y: 0}}
@@ -110,194 +76,266 @@ const PreviousInterview = () => {
         </View>
       </LinearGradient>
 
-      {/* Text Description */}
       <View style={styles.textContainer}>
         <Text style={styles.text}>Crack the ATS Code</Text>
         <Text style={styles.textDescription}>
           Optimize your resume with an AI-powered breakdown highlighting
         </Text>
-        <Text style={styles.textDescription1}>
+        <Text style={styles.textDescription}>
           strengths, weaknesses, and actionable improvements. Get a
         </Text>
-        <Text style={styles.textDescription2}>
+        <Text style={styles.textDescription}>
           clear ATS score and boost your chances of getting shortlisted.
         </Text>
       </View>
 
-      {/* Info Box */}
       <View style={styles.infoBox}>
-        <Text style={styles.text1}>ATS Resume Analysis</Text>
-        <Text style={styles.text2}>Using cached analysis</Text>
+        <Text style={styles.textDescription1}>ATS Resume Analysis</Text>
+        <Text style={styles.textDescription2}>Using cached analysis</Text>
         <Image
           source={require('../../assets/images/image37.png')}
           style={styles.image}
         />
-        <Text style={styles.text3}>Good</Text>
-        <View style={styles.infoBox1}>
-          <LinearGradient
-            colors={['#F16C0E', '#C2312C']}
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 1}}
-            style={styles.gradientMessageBox}>
-            <TouchableOpacity onPress={handleAnalysisPress}>
-              <Text style={styles.analysisText}>Analysis</Text>
-            </TouchableOpacity>
-          </LinearGradient>
-          <TouchableOpacity onPress={handleKeywordsPress}>
-            <Text style={styles.text4}>Keywords</Text>
+        <Text style={styles.textDescription3}>Good</Text>
+        <View style={styles.tabBox}>
+          <TouchableOpacity
+            onPress={() => setActiveTab('Analysis')}
+            style={styles.tabButton}>
+            {activeTab === 'Analysis' ? (
+              <LinearGradient
+                colors={['#F16C0E', '#C2312C']}
+                start={{x: 0, y: 0}}
+                end={{x: 1, y: 1}}
+                style={styles.activeTab}>
+                <Text style={[styles.tabText, styles.activeTabText]}>
+                  Analysis
+                </Text>
+              </LinearGradient>
+            ) : (
+              <Text style={styles.tabText}>Analysis</Text>
+            )}
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => setActiveTab('Keywords')}
+            style={styles.tabButton}>
+            {activeTab === 'Keywords' ? (
+              <LinearGradient
+                colors={['#F16C0E', '#C2312C']}
+                start={{x: 0, y: 0}}
+                end={{x: 1, y: 1}}
+                style={styles.activeTab}>
+                <Text style={[styles.tabText, styles.activeTabText]}>
+                  Keywords
+                </Text>
+              </LinearGradient>
+            ) : (
+              <Text style={styles.tabText}>Keywords</Text>
+            )}
           </TouchableOpacity>
         </View>
 
-        {/* Conditionally Render Analysis Content */}
-        {showAnalysisContent && (
-          <ScrollView
-            style={styles.container1}
-            contentContainerStyle={{paddingBottom: 20}}
-            showsVerticalScrollIndicator={false}>
-            <Image
-              source={require('../../assets/images/image27.png')}
-              style={styles.image1}
-            />
-            <Text style={styles.text5}>Strengths</Text>
-
-            <TouchableOpacity onPress={handleUpperImagePress}>
-              <Animated.Image
-                source={require('../../assets/images/image38.png')}
-                style={[
-                  styles.image2,
-                  {transform: [{rotate: upperRotateInterpolation}]},
-                ]}
+        <ScrollView contentContainerStyle={styles.contentContainer}>
+          {activeTab === 'Analysis' ? (
+            <>
+              <Image
+                source={require('../../assets/images/image27.png')}
+                style={styles.image27}
               />
-            </TouchableOpacity>
-
-            {showUpperText && (
-              <View style={styles.textBlock}>
-                <Text style={styles.clickText}>
-                  <Text style={styles.dot}>• </Text>
-                  {'  '}Clear listing of progressive job titles
-                </Text>
-                <Text style={styles.clickText}>
-                  <Text style={styles.dot}>• </Text>
-                  {'  '}Diverse set of skills aligned with various roles
-                </Text>
-                <Text style={styles.clickText}>
-                  <Text style={styles.dot}>• </Text>
-                  {'  '}Entrepreneurial experience highlighted
-                </Text>
-              </View>
-            )}
-
-            <Image
-              source={require('../../assets/images/image39.png')}
-              style={styles.image1}
-            />
-            <Text style={styles.text5}>Weaknesses</Text>
-
-            <TouchableOpacity onPress={handleLowerImagePress1}>
-              <Animated.Image
-                source={require('../../assets/images/image38.png')}
-                style={[
-                  styles.image2,
-                  {transform: [{rotate: lowerRotateInterpolation1}]},
-                ]}
+              <Text style={styles.sectionTitle}>Strengths</Text>
+              <TouchableOpacity
+                onPress={() =>
+                  handleImagePress(
+                    setShowUpperText,
+                    upperRotation,
+                    showUpperText,
+                  )
+                }>
+                <Animated.Image
+                  source={require('../../assets/images/image38.png')}
+                  style={[
+                    styles.toggleIcon,
+                    {transform: [{rotate: rotationStyle(upperRotation)}]},
+                  ]}
+                />
+              </TouchableOpacity>
+              {showUpperText && (
+                <View style={styles.textBlock}>
+                  <Text style={styles.clickText}>
+                    <Text style={styles.dot}>• </Text>
+                    {'  '}Clear listing of progressive job titles
+                  </Text>
+                  <Text style={styles.clickText}>
+                    <Text style={styles.dot}>• </Text>
+                    {'  '}Diverse set of skills aligned with various roles
+                  </Text>
+                  <Text style={styles.clickText}>
+                    <Text style={styles.dot}>• </Text>
+                    {'  '}Entrepreneurial experience highlighted
+                  </Text>
+                </View>
+              )}
+              <Image
+                source={require('../../assets/images/image39.png')}
+                style={styles.image39}
               />
-            </TouchableOpacity>
-
-            {showLowerText1 && (
-              <View style={styles.textBlock}>
-                <Text style={styles.clickText}>
-                  <Text style={styles.dot1}>• </Text>
-                  {'  '}Incomplete educational details
-                </Text>
-                <Text style={styles.clickText}>
-                  <Text style={styles.dot1}>• </Text>
-                  {'  '}Use of 'N/A' instead of providing specific
-                </Text>
-                <Text style={styles.clickText1}>
-                  dates or simply leaving unspecified
-                </Text>
-                <Text style={styles.clickText}>
-                  <Text style={styles.dot1}>• </Text>
-                  {'  '}Lack of specific key achievements or metrics
-                </Text>
-                <Text style={styles.clickText1}>in role descriptions</Text>
-              </View>
-            )}
-
-            <Image
-              source={require('../../assets/images/image40.png')}
-              style={styles.image1}
-            />
-            <Text style={styles.text5}>Improvement Suggestions</Text>
-
-            <TouchableOpacity onPress={handleLowerImagePress2}>
-              <Animated.Image
-                source={require('../../assets/images/image38.png')}
-                style={[
-                  styles.image2,
-                  {transform: [{rotate: lowerRotateInterpolation2}]},
-                ]}
+              <Text style={styles.sectionTitle1}>Weaknesses</Text>
+              <TouchableOpacity
+                onPress={() =>
+                  handleImagePress(
+                    setShowLowerText1,
+                    lowerRotation1,
+                    showLowerText1,
+                  )
+                }>
+                <Animated.Image
+                  source={require('../../assets/images/image38.png')}
+                  style={[
+                    styles.toggleIcon1,
+                    {transform: [{rotate: rotationStyle(lowerRotation1)}]},
+                  ]}
+                />
+              </TouchableOpacity>
+              {showLowerText1 && (
+                <View style={styles.textBlock}>
+                  <Text style={styles.clickText}>
+                    <Text style={styles.dot1}>• </Text>
+                    {'  '}Incomplete educational details
+                  </Text>
+                  <Text style={styles.clickText}>
+                    <Text style={styles.dot1}>• </Text>
+                    {'  '}Use of 'N/A' instead of providing specific
+                  </Text>
+                  <Text style={styles.clickText1}>
+                    dates or simply leaving unspecified
+                  </Text>
+                  <Text style={styles.clickText}>
+                    <Text style={styles.dot1}>• </Text>
+                    {'  '}Lack of specific key achievements or metrics
+                  </Text>
+                  <Text style={styles.clickText1}>in role descriptions</Text>
+                </View>
+              )}
+              <Image
+                source={require('../../assets/images/image40.png')}
+                style={styles.image40}
               />
-            </TouchableOpacity>
-
-            {showLowerText2 && (
-              <View style={styles.textBlock}>
-                <Text style={styles.clickText}>
-                  <Text style={styles.dot2}>1 </Text>
-                  {'  '}Include specific employment dates to
-                </Text>
-                <Text style={styles.clickText2}>
-                  show the duration of employment at
-                </Text>
-                <Text style={styles.clickText3}> each company.</Text>
-                <Text style={styles.clickText}>
-                  <Text style={styles.dot2}>2 </Text>
-                  {'  '}Add detailed descriptions of projects,
-                </Text>
-                <Text style={styles.clickText4}>
-                  responsibilities, and achievements in the
-                </Text>
-                <Text style={styles.clickText5}>
-                  experience section to provide context
-                </Text>
-                <Text style={styles.clickText6}>and demonstrate impact.</Text>
-                <Text style={styles.clickText}>
-                  <Text style={styles.dot2}>3 </Text>
-                  {'  '}Provide examples of how you have
-                </Text>
-                <Text style={styles.clickText2}>
-                  effectively used your soft skills such as
-                </Text>
-                <Text style={styles.clickText3}>leadership and teamwork.</Text>
+              <Text style={styles.sectionTitle2}>Improvement Suggestions</Text>
+              <TouchableOpacity
+                onPress={() =>
+                  handleImagePress(
+                    setShowLowerText2,
+                    lowerRotation2,
+                    showLowerText2,
+                  )
+                }>
+                <Animated.Image
+                  source={require('../../assets/images/image38.png')}
+                  style={[
+                    styles.toggleIcon2,
+                    {transform: [{rotate: rotationStyle(lowerRotation2)}]},
+                  ]}
+                />
+              </TouchableOpacity>
+              {showLowerText2 && (
+                <View style={styles.textBlock}>
+                  <Text style={styles.clickText}>
+                    <Text style={styles.dot2}>1 </Text>
+                    {'  '}Include specific employment dates to
+                  </Text>
+                  <Text style={styles.clickText2}>
+                    show the duration of employment at
+                  </Text>
+                  <Text style={styles.clickText3}> each company.</Text>
+                  <Text style={styles.clickText}>
+                    <Text style={styles.dot2}>2 </Text>
+                    {'  '}Add detailed descriptions of projects,
+                  </Text>
+                  <Text style={styles.clickText4}>
+                    responsibilities, and achievements in the
+                  </Text>
+                  <Text style={styles.clickText5}>
+                    experience section to provide context
+                  </Text>
+                  <Text style={styles.clickText6}>and demonstrate impact.</Text>
+                  <Text style={styles.clickText}>
+                    <Text style={styles.dot2}>3 </Text>
+                    {'  '}Provide examples of how you have
+                  </Text>
+                  <Text style={styles.clickText2}>
+                    effectively used your soft skills such as
+                  </Text>
+                  <Text style={styles.clickText7}>
+                    leadership and teamwork.
+                  </Text>
+                </View>
+              )}
+            </>
+          ) : (
+            <View style={styles.keywordSection}>
+              <Image
+                source={require('../../assets/images/image42.png')}
+                style={styles.image42}
+              />
+              <Text style={styles.awsText}>Included Buzzwords</Text>
+              <View style={styles.box}>
+                <Text style={styles.boxText}>Team Management</Text>
               </View>
-            )}
-            {showAWSContent && (
-              <View style={styles.awsContent}>
-                <Text style={styles.awsText}>
-                  Amazon Web Services (AWS) is a cloud computing platform that
-                  provides a wide range of services, such as computing power,
-                  storage, and databases. AWS helps businesses and developers by
-                  offering scalable and reliable infrastructure, enabling
-                  applications to be deployed and managed efficiently. It
-                  includes services like EC2 for virtual servers, S3 for
-                  storage, and RDS for relational databases.
-                </Text>
+              <View style={styles.box1}>
+                <Text style={styles.boxText1}>Product Development</Text>
               </View>
-            )}
-          </ScrollView>
-        )}
+              <View style={styles.box2}>
+                <Text style={styles.boxText2}>Software Development</Text>
+              </View>
+              <View style={styles.box3}>
+                <Text style={styles.boxText3}>Marketing</Text>
+              </View>
+              <Image
+                source={require('../../assets/images/image43.png')}
+                style={styles.image43}
+              />
+              <Text style={styles.boxText4}>Missing Buzzwords</Text>
+              <View style={styles.box4}>
+                <Text style={styles.boxText5}>Project Management</Text>
+              </View>
+              <View style={styles.box5}>
+                <Text style={styles.boxText6}>Digital Marketing</Text>
+              </View>
+              <View style={styles.box6}>
+                <Text style={styles.boxText7}>Strategic Planning</Text>
+              </View>
+              <View style={styles.box7}>
+                <Text style={styles.boxText8}>Content Creation</Text>
+              </View>
+              <View style={styles.box8}>
+                <Text style={styles.boxText9}>Analytics</Text>
+              </View>
+              <View style={styles.box9}>
+                <Text style={styles.boxText10}>Keyword Match Analysis</Text>
+                <Text style={styles.boxText11}>
+                  Your resume includes 17 out of 24
+                </Text>
+                <Text style={styles.boxText11}>
+                  recommended keywords for your
+                </Text>
+                <Text style={styles.boxText11}>target role</Text>
+                <View
+                  style={styles.lineButton}>
+                  <View
+                    style={styles.lineButton1}
+                  />
+                </View>
+              </View>
+            </View>
+          )}
+        </ScrollView>
       </View>
-
-      {/* Conditionally Render AWS Content */}
     </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-  },
+  container: {flex: 1},
   backButton: {
     position: 'absolute',
     top: 60,
@@ -307,7 +345,8 @@ const styles = StyleSheet.create({
   leftIcon: {
     width: 20,
     height: 20,
-    tintColor: '#FFFFFF',
+    marginTop: -5,
+    tintColor: '#fff',
   },
   gradientBorder: {
     position: 'absolute',
@@ -327,127 +366,154 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   textContainer: {
-    marginTop: 30,
+    marginTop: 50,
     paddingHorizontal: 20,
+    marginLeft: 30,
   },
   text: {
     fontSize: 26,
     fontWeight: 'bold',
-    color: '#FFFFFF',
-    marginBottom: 15,
-    marginLeft: 15,
+    color: '#fff',
+    marginBottom: 5,
   },
   textDescription: {
-    fontSize: 11.5,
-    color: '#CDCDCD',
-    lineHeight: 19,
-    marginLeft: -30,
+    color: '#ccc',
+    fontSize: 12,
+    marginLeft: -40,
   },
   textDescription1: {
-    fontSize: 11.5,
-    color: '#CDCDCD',
-    lineHeight: 19,
-    marginLeft: -30,
+    color: '#FFFFFF',
+    marginTop: 20,
+    fontSize: 19,
+    lineHeight: 26,
+    fontWeight: '700',
+    textAlign: 'center',
+    marginLeft: '-40%',
   },
   textDescription2: {
-    fontSize: 11.5,
-    color: '#CDCDCD',
-    lineHeight: 19,
-    marginLeft: -30,
-  },
-  infoBox: {
-    height: '81%',
-    width: '105%',
-    marginTop: 10,
-    backgroundColor: '#0F142478',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#333541',
-    padding: 20,
-    marginLeft: -10,
-  },
-  text1: {
-    color: '#FFFFFF',
-    fontSize: 19,
-    fontWeight: '700',
-    lineHeight: 18,
-    marginTop: 20,
-  },
-  text2: {
-    color: '#BABABA',
-    fontSize: 15,
-    fontWeight: '400',
+    fontSize: 13,
     lineHeight: 21,
+    fontWeight: '400',
+    color: '#BABABA',
+    marginLeft: 8,
     marginTop: 10,
   },
   image: {
-    height: 95,
-    width: 95,
+    height: 100,
+    width: 100,
     marginLeft: '70%',
-    marginTop: -75,
+    marginTop: -80,
   },
-  text3: {
+  textDescription3: {
+    fontSize: 12,
+    fontWeight: '600',
+    lineHeight: 16,
     color: '#FFFFFF',
-    marginLeft: '79%',
-    fontSize: 15,
-    marginTop: 5,
+    marginLeft: '80%',
   },
-  infoBox1: {
-    height: 60,
-    width: '106%',
-    marginTop: 10,
-    backgroundColor: 'rgba(104, 109, 122, 0.83)',
-    borderRadius: 8,
+  infoBox: {
+    height: '77%',
+    width: '97%',
+    marginTop: 30,
+    backgroundColor: '#0F142478',
+    borderRadius: 12,
     borderWidth: 1,
-    padding: 15,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginLeft: -12,
+    borderColor: '#F3883580',
+    padding: 20,
+    marginLeft: 5,
   },
-  gradientMessageBox: {
-    height: 45,
-    width: 150,
-    borderRadius: 8,
+  tabBox: {
+    width: '105%',
+    height: 50,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 50,
+    backgroundColor: '#1a223c',
+    borderRadius: 10,
+    marginLeft: -10,
+    overflow: 'hidden',
+  },
+  tabButton: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  activeTab: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: -8,
+    borderRadius: 10,
+    height: '100%',
+    width: '100%',
   },
-  analysisText: {
-    color: '#FFFFFF',
-    fontWeight: '700',
-    fontSize: 18,
+  tabText: {
+    color: '#fff',
+    fontSize: 16,
   },
-  text4: {
-    color: '#FFFFFF',
-    fontWeight: '600',
-    fontSize: 18,
-    lineHeight: 26,
-    marginLeft: 60,
+  activeTabText: {
+    fontWeight: 'bold',
+    color: '#fff',
   },
-  container1: {
-    flex: 1,
-    padding: 20,
+  contentContainer: {
+    paddingBottom: 30,
+    paddingHorizontal: 20,
   },
-  image1: {
-    marginTop: 10,
+  image27: {
     marginLeft: -20,
+    marginTop: 40,
   },
-  text5: {
-    color: '#FFFFFF',
+  image39: {
+    marginLeft: -20,
+    marginTop: 25,
+  },
+  image40: {
+    marginLeft: -20,
+    marginTop: 25,
+  },
+  sectionTitle: {
     fontWeight: '700',
-    fontSize: 17,
-    marginLeft: 15,
-    marginTop: -20,
+    color: '#fff',
+    fontSize: 18,
+    marginTop: -22,
+    marginLeft: 10,
   },
-  image2: {
-    width: 25,
+  sectionTitle1: {
+    fontWeight: '700',
+    color: '#fff',
+    fontSize: 18,
+    marginTop: -20,
+    marginLeft: 10,
+  },
+  sectionTitle2: {
+    fontWeight: '700',
+    color: '#fff',
+    fontSize: 18,
+    marginTop: -22,
+    marginLeft: 10,
+  },
+  toggleIcon: {
+    width: 20,
     height: 15,
-    marginTop: -16,
-    marginLeft: '95%',
+    alignSelf: 'center',
+    marginLeft: '98%',
+    marginTop: -18,
+  },
+  toggleIcon1: {
+    width: 20,
+    height: 15,
+    alignSelf: 'center',
+    marginLeft: '98%',
+    marginTop: -18,
+  },
+  toggleIcon2: {
+    width: 20,
+    height: 15,
+    alignSelf: 'center',
+    marginLeft: '98%',
+    marginTop: -18,
   },
   textBlock: {
-    marginTop: 20,
-    marginLeft: 10,
+    padding: 10,
   },
   clickText: {
     color: '#BABABA',
@@ -463,6 +529,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     lineHeight: 21,
     marginBottom: 4,
+    marginLeft: 5,
   },
   clickText2: {
     color: '#BABABA',
@@ -504,6 +571,14 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     marginLeft: 8,
   },
+  clickText7: {
+    color: '#BABABA',
+    fontSize: 13,
+    fontWeight: '400',
+    lineHeight: 21,
+    marginBottom: 4,
+    marginLeft: 9,
+  },
   dot: {
     color: '#1CC84B',
     fontSize: 14,
@@ -520,20 +595,225 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginRight: 5,
   },
-  awsContent: {
+  keywordSection: {
     marginTop: 20,
-    padding: 10,
-    backgroundColor: '#FFF',
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
+  },
+  image42: {
+    marginLeft: -20,
+    marginTop: 10,
   },
   awsText: {
-    fontSize: 16,
-    color: '#333',
+    fontWeight: '700',
     lineHeight: 24,
+    color: '#fff',
+    fontSize: 18,
+    marginLeft: 10,
+    marginTop: -21,
+  },
+  box: {
+    height: 40,
+    width: '52%',
+    backgroundColor: '#0A08081A',
+    borderColor: '#FFFFFF1A',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginTop: 10,
+    marginLeft: -20,
+  },
+  boxText: {
+    fontSize: 15,
+    fontWeight: '500',
+    marginLeft: 10,
+    marginTop: 6,
+    color: '#FFFFFF',
+  },
+  box1: {
+    height: 40,
+    width: '58%',
+    backgroundColor: '#0A08081A',
+    borderColor: '#FFFFFF1A',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginTop: -40,
+    marginLeft: '48%',
+  },
+  boxText1: {
+    fontSize: 15,
+    fontWeight: '500',
+    marginLeft: 10,
+    marginTop: 6,
+    color: '#FFFFFF',
+  },
+  box2: {
+    height: 40,
+    width: '60%',
+    backgroundColor: '#0A08081A',
+    borderColor: '#FFFFFF1A',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginTop: 10,
+    marginLeft: -20,
+  },
+  boxText2: {
+    fontSize: 15,
+    fontWeight: '500',
+    marginLeft: 10,
+    marginTop: 6,
+    color: '#FFFFFF',
+  },
+  box3: {
+    height: 40,
+    width: '32%',
+    backgroundColor: '#0A08081A',
+    borderColor: '#FFFFFF1A',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginTop: -40,
+    marginLeft: '57%',
+  },
+  boxText3: {
+    fontSize: 15,
+    fontWeight: '500',
+    marginLeft: 10,
+    marginTop: 6,
+    color: '#FFFFFF',
+  },
+  image43: {
+    marginTop: 50,
+    marginLeft: -18,
+  },
+  boxText4: {
+    fontWeight: '700',
+    fontSize: 18,
+    lineHeight: 24,
+    color: '#FFFFFF',
+    marginLeft: 15,
+    marginTop: -19,
+  },
+  box4: {
+    height: 40,
+    width: '57%',
+    backgroundColor: '#C32B371A',
+    borderColor: '#FFFFFF1A',
+    borderWidth: 1,
+    borderRadius: 16,
+    marginTop: 20,
+    marginLeft: -20,
+  },
+  boxText5: {
+    fontSize: 15,
+    fontWeight: '500',
+    marginLeft: 15,
+    marginTop: 6,
+    color: '#C32B37',
+  },
+  box5: {
+    height: 40,
+    width: '50%',
+    backgroundColor: '#C32B371A',
+    borderColor: '#FFFFFF1A',
+    borderWidth: 1,
+    borderRadius: 16,
+    marginTop: 20,
+    marginLeft: -20,
+  },
+  boxText6: {
+    fontSize: 15,
+    fontWeight: '500',
+    marginLeft: 15,
+    marginTop: 6,
+    color: '#C32B37',
+  },
+  box6: {
+    height: 40,
+    width: '52%',
+    backgroundColor: '#C32B371A',
+    borderColor: '#FFFFFF1A',
+    borderWidth: 1,
+    borderRadius: 16,
+    marginTop: -100,
+    marginLeft: '52%',
+  },
+  boxText7: {
+    fontSize: 15,
+    fontWeight: '500',
+    marginLeft: 15,
+    marginTop: 6,
+    color: '#C32B37',
+  },
+  box7: {
+    height: 40,
+    width: '52%',
+    backgroundColor: '#C32B371A',
+    borderColor: '#FFFFFF1A',
+    borderWidth: 1,
+    borderRadius: 16,
+    marginTop: 20,
+    marginLeft: '45%',
+  },
+  boxText8: {
+    fontSize: 15,
+    fontWeight: '500',
+    marginLeft: 15,
+    marginTop: 6,
+    color: '#C32B37',
+  },
+  box8: {
+    height: 40,
+    width: '32%',
+    backgroundColor: '#C32B371A',
+    borderColor: '#FFFFFF1A',
+    borderWidth: 1,
+    borderRadius: 16,
+    marginTop: 20,
+    marginLeft: -20,
+  },
+  boxText9: {
+    fontSize: 15,
+    fontWeight: '500',
+    marginLeft: 15,
+    marginTop: 6,
+    color: '#C32B37',
+  },
+  box9: {
+    height: 200,
+    width: '113%',
+    backgroundColor: '#0A08081A',
+    borderColor: '#FFFFFF1A',
+    borderWidth: 1,
+    borderRadius: 11,
+    marginTop: 10,
+    marginLeft: -20,
+  },
+  boxText10: {
+    fontSize: 20,
+    fontWeight: '600',
+    lineHeight: 35,
+    color: '#FFFFFF',
+    marginLeft: 20,
+    marginTop: 20,
+    marginBottom: 10,
+  },
+  boxText11: {
+    fontSize: 16,
+    fontWeight: '400',
+    lineHeight: 25,
+    color: '#B3B3B3',
+    marginLeft: 20,
+  },
+  lineButton: {
+    height: 8,
+    width:'90%',
+    backgroundColor: '#555',
+    borderRadius: 4,
+    marginTop: 10,
+    marginLeft:20
+  },
+  lineButton1: {
+    width: '70%',
+    backgroundColor: '#FFFFFF',
+    height: 8,
+    borderRadius: 4,
   },
 });
 

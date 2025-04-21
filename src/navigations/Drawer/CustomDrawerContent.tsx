@@ -165,7 +165,7 @@ const CustomDrawerContent: React.FC = () => {
           <Text style={styles.text13}>Get Demo</Text>
         </TouchableOpacity>
         <View style={{marginBottom: 20, alignItems: 'center'}}>
-          <TouchableOpacity onPress={goToProfile}>
+          <TouchableOpacity activeOpacity={0.8} onPress={goToProfile}>
             <Image
               source={require('../../assets/images/image15.png')}
               style={styles.image12}

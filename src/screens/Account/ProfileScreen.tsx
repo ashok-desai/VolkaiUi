@@ -16,6 +16,45 @@ const {width} = Dimensions.get('window');
 const ProfileScreen = () => {
   const navigation = useNavigation();
 
+  const experiences = [
+    {
+      company: 'Ck Motion Picures',
+      role: 'Script Writer',
+      start: '2012',
+      end: '2013',
+    },
+    {
+      company: 'Vaaraahi Chalana Chitram',
+      role: 'Script Writer',
+      start: '2013',
+      end: '2014',
+    },
+    {
+      company: 'Arka Media Works',
+      role: 'Script Writer',
+      start: '2015',
+      end: '2016',
+    },
+    {company: 'Sommi Films', role: 'Script Writer', start: '2016', end: '2017'},
+    {
+      company: 'Get Indian Online',
+      role: 'Script Writer',
+      start: '2015',
+      end: '2016',
+    },
+    {company: 'Zezo', role: 'Script Writer', start: '2016', end: '2017'},
+  ];
+
+  const education = [
+    {
+      degree: 'Bachelor of Arts',
+      role: 'Script Writer',
+      start: '',
+      end: '',
+    },
+    {degree: 'MBA', role: 'Script Writer', start: '', end: ''},
+  ];
+
   return (
     <LinearGradient
       colors={['#000000', '#1a237e', '#000000']}
@@ -35,20 +74,24 @@ const ProfileScreen = () => {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.box}>
           <Text style={styles.text}>Dev Desai</Text>
-          <LinearGradient
-            colors={['#F16C0E', '#C2312C']}
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 0}}
-            style={styles.gradientBox}>
-            <Text style={styles.gradientBoxText}>ATS Score</Text>
-          </LinearGradient>
-          <LinearGradient
-            colors={['#F16C0E', '#C2312C']}
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 0}}
-            style={styles.gradientBox1}>
-            <Text style={styles.gradientBoxText1}>Previous Interview</Text>
-          </LinearGradient>
+          <TouchableOpacity>
+            <LinearGradient
+              colors={['#F16C0E', '#C2312C']}
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 0}}
+              style={styles.gradientBox}>
+              <Text style={styles.gradientBoxText}>ATS Score</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <LinearGradient
+              colors={['#F16C0E', '#C2312C']}
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 0}}
+              style={styles.gradientBox1}>
+              <Text style={styles.gradientBoxText1}>Previous Interview</Text>
+            </LinearGradient>
+          </TouchableOpacity>
           <View style={styles.box1}>
             <Image
               source={require('../../assets/images/icon1.png')}
@@ -66,49 +109,115 @@ const ProfileScreen = () => {
         </View>
         <View style={styles.box3}>
           <Text style={styles.text3}>Skills*</Text>
-          <View style={styles.box4}>
+
+          <TouchableOpacity style={styles.box4}>
             <Text style={styles.text4}>Team Management</Text>
-          </View>
-          <View style={styles.box5}>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.box5}>
             <Text style={styles.text5}>Writing/Direction</Text>
-          </View>
-          <View style={styles.box6}>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.box6}>
             <Text style={styles.text6}>Marketing</Text>
-          </View>
-          <View style={styles.box7}>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.box7}>
             <Text style={styles.text7}>Product Development</Text>
-          </View>
-          <View style={styles.box8}>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.box8}>
             <Text style={styles.text8}>Filmmaking</Text>
-          </View>
-          <View style={styles.box9}>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.box9}>
             <Text style={styles.text9}>Planning</Text>
-          </View>
-          <View style={styles.box10}>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.box10}>
             <Text style={styles.text10}>Software Development</Text>
-          </View>
+          </TouchableOpacity>
         </View>
         <View style={styles.box11}>
-          <Text style={styles.boxText1}>Work Experience</Text>
-          <View style={styles.verticalLine} />
-          <Text style={styles.boxText2}>Ck Motion Picures</Text>
-          <Text style={styles.boxText3}>Script Writer</Text>
-          <Text style={styles.boxText4}>2012 - 2013</Text>
-          <Text style={styles.boxText5}>Vaaraahi Chalana Chitram</Text>
-          <Text style={styles.boxText6}>Script Writer</Text>
-          <Text style={styles.boxText7}>2013 - 2014</Text>
-          <Text style={styles.boxText5}>Arka Media Works</Text>
-          <Text style={styles.boxText6}>Script Writer</Text>
-          <Text style={styles.boxText7}>2015 - 2016</Text>
-          <Text style={styles.boxText5}>Sommi Films</Text>
-          <Text style={styles.boxText6}>Script Writer</Text>
-          <Text style={styles.boxText7}>2016 - 2017</Text>
-          <Text style={styles.boxText5}>Get Indian Online</Text>
-          <Text style={styles.boxText6}>Script Writer</Text>
-          <Text style={styles.boxText7}>2015 - 2016</Text>
-          <Text style={styles.boxText5}>Zezo</Text>
-          <Text style={styles.boxText6}>Script Writer</Text>
-          <Text style={styles.boxText7}>2016 - 2017</Text>
+          <View style={styles.workExperienceSection}>
+            <Text style={styles.sectionTitle}>Work Experience</Text>
+
+            {experiences.map((item, index) => (
+              <View key={index} style={styles.timelineItem}>
+                <View style={styles.leftContent}>
+                  <View style={styles.dotWithLine}>
+                    <View
+                      style={[
+                        styles.dottedLine,
+                        index === experiences.length + 1 && {height: 0},
+                      ]}
+                    />
+                  </View>
+                  <View style={styles.companyInfo}>
+                    <Text style={styles.company}>{item.company}</Text>
+                    <Text style={styles.role}>{item.role}</Text>
+                  </View>
+                </View>
+
+                <View style={styles.rightContent}>
+                  <Text style={styles.dates}>
+                    {item.start} — {item.end}
+                  </Text>
+                </View>
+              </View>
+            ))}
+          </View>
+        </View>
+        <View style={styles.box12}>
+          <View style={styles.workExperienceSection}>
+            <Text style={styles.sectionTitle}>Education</Text>
+
+            {education.map((item, index) => (
+              <View key={index} style={styles.timelineItem}>
+                <View style={styles.leftContent}>
+                  <View style={styles.dotWithLine}>
+                    <View
+                      style={[
+                        styles.dottedLine,
+                        index === education.length + 1 && {height: 0},
+                      ]}
+                    />
+                  </View>
+                  <View style={styles.companyInfo}>
+                    <Text style={styles.company}>{item.degree}</Text>
+                    <Text style={styles.role}>{item.role}</Text>
+                  </View>
+                </View>
+
+                <View style={styles.rightContent}>
+                  <Text style={styles.dates1}>
+                    {item.start} — {item.end}
+                  </Text>
+                </View>
+              </View>
+            ))}
+          </View>
+        </View>
+        <View style={styles.box13}>
+          <Text style={styles.box13Text}>Certifications</Text>
+          <Text style={styles.box13Text1}>No experience listed.</Text>
+        </View>
+        <View style={styles.box14}>
+          <Text style={styles.box14Text}>Upload Resume</Text>
+          <Text style={styles.box14Text1}>Choose File No file chosen</Text>
+          <TouchableOpacity>
+            <LinearGradient
+              colors={['#F16C0E', '#C2312C']}
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 0}}
+              style={styles.gradientBox3}>
+              <Image
+                source={require('../../assets/images/image41.png')}
+                style={styles.image2}
+              />
+              <Text style={styles.gradientBoxText3}>Ashok Dev-01.pdf</Text>
+            </LinearGradient>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </LinearGradient>
@@ -387,7 +496,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   box11: {
-    height: '55%',
+    height: '33.5%',
     width: '105%',
     backgroundColor: '#1a223c',
     borderColor: '#F16C0E52',
@@ -396,70 +505,157 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     marginLeft: -10,
   },
-  boxText1: {
-    color: '#FFFFFF',
-    fontWeight: '700',
-    fontSize: 19,
-    lineHeight: 26,
-    marginTop: 20,
-    marginLeft: 20,
+  workExperienceSection: {
+    marginVertical: 20,
+    marginHorizontal: 10,
   },
-  verticalLine: {
-    position: 'absolute',
-    left: 20,
-    top: 60,
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 30,
+    marginLeft: 11,
+  },
+  timelineItem: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: 25,
+  },
+  leftContent: {
+    flexDirection: 'row',
+    flex: 1,
+  },
+  dotWithLine: {
+    alignItems: 'center',
+    marginRight: 10,
+    width: 20,
+  },
+
+  dottedLine: {
+    flex: 1,
     width: 1,
-    height: '86%',
+    height: 60,
     backgroundColor: '#F16C0E',
-    zIndex: 1,
+    borderStyle: 'dotted',
+    borderWidth: 1,
+    borderColor: '#F16C0E',
+    marginTop: -5,
   },
-  boxText2: {
+  companyInfo: {
+    flex: 1,
+  },
+  company: {
     color: '#FFFFFF',
+    fontSize: 16,
     fontWeight: '600',
-    fontSize: 15,
+  },
+  role: {
+    color: '#BBBBBB',
+    fontSize: 13,
+  },
+  rightContent: {
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    width: 80,
+  },
+  dates: {
+    color: '#999999',
+    fontSize: 12,
+    marginTop: 20,
+    marginRight: 10,
+  },
+  dates1: {
+    color: '#999999',
+    fontSize: 12,
+    marginTop: 20,
+    marginRight: 30,
+  },
+  box12: {
+    height: 205,
+    width: '105%',
+    backgroundColor: '#1a223c',
+    borderColor: '#F16C0E52',
+    borderWidth: 1,
+    borderRadius: 10,
+    marginBottom: 15,
+    marginLeft: -10,
+  },
+  box13: {
+    height: 100,
+    width: '105%',
+    backgroundColor: '#1a223c',
+    borderColor: '#F16C0E52',
+    borderWidth: 1,
+    borderRadius: 10,
+    marginBottom: 15,
+    marginLeft: -10,
+  },
+  box13Text: {
+    color: '#FFFFFF',
+    fontSize: 20,
+    fontWeight: '700',
     lineHeight: 26,
-    marginLeft: 40,
+    marginLeft: 20,
     marginTop: 20,
   },
-  boxText3: {
-    color: '#A2A2A2',
-    fontWeight: '500',
-    fontSize: 13,
-    lineHeight: 23,
-    marginLeft: 40,
-    marginTop: 0,
-  },
-  boxText4: {
-    color: '#A2A2A2',
-    fontWeight: '500',
-    fontSize: 13,
-    lineHeight: 23,
-    marginLeft: '75%',
-    marginTop: -32,
-  },
-  boxText5: {
+  box13Text1: {
     color: '#FFFFFF',
-    fontWeight: '600',
     fontSize: 15,
+    fontWeight: '500',
+    lineHeight: 28,
+    marginLeft: 20,
+    marginTop: 5,
+  },
+  box14: {
+    height: '11%',
+    width: '105%',
+    backgroundColor: '#1a223c',
+    borderColor: '#F16C0E52',
+    borderWidth: 1,
+    borderRadius: 10,
+    marginBottom: '10%',
+    marginLeft: -10,
+  },
+  box14Text: {
+    color: '#FFFFFF',
+    fontSize: 20,
+    fontWeight: '700',
     lineHeight: 26,
-    marginLeft: 40,
-    marginTop: 50,
+    marginLeft: 105,
+    marginTop: 30,
   },
-  boxText6: {
-    color: '#A2A2A2',
-    fontWeight: '500',
-    fontSize: 13,
-    lineHeight: 23,
-    marginLeft: 40,
+  box14Text1: {
+    color: '#D9D9D9',
+    fontSize: 15,
+    fontWeight: '400',
+    lineHeight: 22,
+    marginLeft: 90,
+    marginTop: 5,
+  },
+  gradientBox3: {
+    height: 50,
+    width: '92%',
+    paddingHorizontal: 12,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10,
+    marginTop: 30,
+    marginLeft: 15,
+  },
+  image2: {
+    width: 19,
+    height: 23,
+    marginLeft: '-55%',
     marginTop: 0,
+    tintColor: 'white',
   },
-  boxText7: {
-    color: '#A2A2A2',
-    fontWeight: '500',
-    fontSize: 13,
-    lineHeight: 23,
-    marginLeft: '75%',
-    marginTop: -32,
+  gradientBoxText3: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
+    marginLeft: -5,
+    marginTop: -22,
   },
 });
 
