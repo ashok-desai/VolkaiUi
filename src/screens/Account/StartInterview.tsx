@@ -57,7 +57,7 @@ const StartInterview = () => {
             />
           </View>
           <View style={styles.descriptionBox4}>
-            <View style={styles.descriptionBox5}>
+            <TouchableOpacity style={styles.descriptionBox5}>
               <TouchableOpacity>
                 <Image
                   source={require('../../assets/images/voice.png')}
@@ -65,8 +65,8 @@ const StartInterview = () => {
                 />
               </TouchableOpacity>
               <Text style={styles.text}>Start Recording</Text>
-            </View>
-            <View style={styles.descriptionBox6}>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.descriptionBox6}>
               <TouchableOpacity>
                 <Image
                   source={require('../../assets/images/video.png')}
@@ -74,7 +74,7 @@ const StartInterview = () => {
                 />
               </TouchableOpacity>
               <Text style={styles.text1}>Start Video</Text>
-            </View>
+            </TouchableOpacity>
           </View>
           <Text style={styles.text2}>Questions Summary</Text>
           <View style={styles.descriptionBox7}>
@@ -114,7 +114,9 @@ const StartInterview = () => {
                 <Text style={styles.text12}>
                   you used Next is and MongoDB together and how
                 </Text>
-                <Text style={styles.text13}>AWS services were beneficial in that context?</Text>
+                <Text style={styles.text13}>
+                  AWS services were beneficial in that context?
+                </Text>
               </View>
             </ScrollView>
           </View>

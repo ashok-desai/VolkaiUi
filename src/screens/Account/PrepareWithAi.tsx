@@ -4,20 +4,36 @@ import {
   Text,
   StyleSheet,
   Image,
-  Dimensions,
-  KeyboardAvoidingView,
-  ScrollView,
-  TextInput,
-  Platform,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {useNavigation} from '@react-navigation/native'; 
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import MaskedView from '@react-native-masked-view/masked-view';
 
 const {width} = Dimensions.get('window');
 
-  const PrepareWithAi = () => {
-  const navigation = useNavigation();
+type RootStackParamList = {
+  PrepareWithAi: undefined;
+  PrepareWithAi1: undefined;
+};
+
+const PrepareWithAi = () => {
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
+  const GradientText = ({text}: {text: string}) => (
+    <MaskedView
+      maskElement={<Text style={styles.gradientTextMask}>{text}</Text>}>
+      <LinearGradient
+        colors={['#F16C0E', '#C2312C']}
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 1}}>
+        <Text style={[styles.gradientTextMask, {opacity: 0}]}>{text}</Text>
+      </LinearGradient>
+    </MaskedView>
+  );
+
   return (
     <LinearGradient
       colors={['#000000', '#1a237e', '#000000']}
@@ -25,143 +41,136 @@ const {width} = Dimensions.get('window');
       end={{x: 3, y: 0.3}}
       style={styles.container}>
       <TouchableOpacity
-        style={styles.backButton}
+        style={styles.leftIconContainer}
+        activeOpacity={0.7}
         onPress={() => navigation.goBack()}>
         <Image
           source={require('../../assets/images/lefticon.png')}
-          style={styles.backIcon}
-          resizeMode="contain"
+          style={styles.leftIcon}
         />
       </TouchableOpacity>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{flex: 1}}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}>
+
+      <LinearGradient
+        colors={['#F16C0E', '#C2312C']}
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 1}}
+        style={styles.gradientBorder}>
+        <View style={styles.imageWrapper}>
+          <Image
+            source={require('../../assets/images/volkaiimage.png')}
+            style={styles.topRightImage}
+          />
+        </View>
+      </LinearGradient>
+
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>Prepare with AI</Text>
+      </View>
+
+      <View style={styles.bodyContainer}>
+        <Text style={styles.bodyText}>
+          Select a specific topic and let our AI generate interview
+        </Text>
+        <Text style={styles.bodyText}>
+          questions. Practice answering them in a simulated
+        </Text>
+        <Text style={styles.bodyText}>
+          environment and receive personalized feedback to strengthen
+        </Text>
+        <Text style={styles.bodyText}>
+          your foundation and boost your confidence.
+        </Text>
+        <Text style={styles.bodyText1}>Technical Skills</Text>
+      </View>
+
+      <View style={styles.cardBox}>
+        <Image
+          source={require('../../assets/images/image46.png')}
+          style={styles.image}
+        />
+        <Text style={styles.boxText2}>JavaScript (Tech)</Text>
+        <Text style={styles.boxText3}>tech</Text>
+        <Image
+          source={require('../../assets/images/image47.png')}
+          style={styles.image1}
+        />
+      </View>
+
+      <View style={styles.cardBox1}>
+        <Image
+          source={require('../../assets/images/image46.png')}
+          style={styles.image}
+        />
+        <Text style={styles.boxText2}>JavaScript (Tech)</Text>
+        <Text style={styles.boxText3}>tech</Text>
+        <Image
+          source={require('../../assets/images/image47.png')}
+          style={styles.image1}
+        />
+      </View>
+
+      <View style={styles.cardBox2}>
+        <Image
+          source={require('../../assets/images/image48.png')}
+          style={styles.image2}
+        />
+        <View style={styles.gradientTextContainer}>
+          <GradientText text="JavaScript (Tech)" />
+          <GradientText text="tech" />
+        </View>
+        <Image
+          source={require('../../assets/images/image47.png')}
+          style={styles.image1}
+        />
+      </View>
+      <View style={styles.cardBox1}>
+        <Image
+          source={require('../../assets/images/image46.png')}
+          style={styles.image}
+        />
+        <Text style={styles.boxText2}>JavaScript (Tech)</Text>
+        <Text style={styles.boxText3}>tech</Text>
+        <Image
+          source={require('../../assets/images/image47.png')}
+          style={styles.image1}
+        />
+      </View>
+      <Text style={styles.text}>Non-Technical Skills</Text>
+      <View style={styles.cardBox1}>
+        <Image
+          source={require('../../assets/images/image46.png')}
+          style={styles.image}
+        />
+        <Text style={styles.boxText2}>JavaScript (Tech)</Text>
+        <Text style={styles.boxText3}>tech</Text>
+        <Image
+          source={require('../../assets/images/image47.png')}
+          style={styles.image1}
+        />
+      </View>
+      <View style={styles.cardBox1}>
+        <Image
+          source={require('../../assets/images/image46.png')}
+          style={styles.image}
+        />
+        <Text style={styles.boxText2}>JavaScript (Tech)</Text>
+        <Text style={styles.boxText3}>tech</Text>
+        <Image
+          source={require('../../assets/images/image47.png')}
+          style={styles.image1}
+        />
+      </View>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('PrepareWithAi1')}
+        activeOpacity={0.8}>
         <LinearGradient
-          colors={['#F16C0E', '#C2312C']}
+          colors={['#F38835', '#C02D2B']}
           start={{x: 0, y: 0}}
           end={{x: 1, y: 1}}
-          style={styles.gradientBorder}>
-          <View style={styles.imageWrapper}>
-            <Image
-              source={require('../../assets/images/volkaiimage.png')}
-              style={styles.topRightImage}
-            />
-          </View>
+          style={styles.cardBox3}>
+          <Text style={styles.text1}>Start Now</Text>
         </LinearGradient>
-
-        <View style={styles.textContainer}>
-          <Text style={styles.text}>Prepare with AI</Text>
-          <Text style={styles.textDescription}>
-            Select a specific topic and let our AI generate interview
-          </Text>
-          <Text style={styles.textDescription1}>
-            questions. Practice answering them in a simulated
-          </Text>
-          <Text style={styles.textDescription2}>
-            environment and receive personalized feedback to strengthen
-          </Text>
-          <Text style={styles.textDescription3}>
-            your foundation and boost your confidence.
-          </Text>
-        </View>
-
-        <View style={styles.infoBox}>
-          <LinearGradient
-            colors={['#F16C0E', '#C2312C']}
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 1}}
-            style={styles.gradientMessageBox}>
-            <Text style={styles.text1}>
-              You: Can you help me prepare for the
-            </Text>
-            <Text style={styles.text2}>topic: communication?</Text>
-          </LinearGradient>
-          <View style={styles.infoBox1}>
-            <ScrollView contentContainerStyle={styles.scrollContent}>
-              <Text style={styles.text3}>
-                Absolutely, I'd be happy to help you prepare to learn about
-                Amazon Web Services (AWS)! AWS is Amazon's cloud platform and
-                it's
-              </Text>
-              <Text style={styles.text3}>
-                one of the most comprehensive and broadly adopted cloud
-                platforms in the world, offering over 175 fully-featured
-                services
-              </Text>
-              <Text style={styles.text4}>from data centers globally.</Text>
-              <Text style={styles.text5}>
-                To get started, it may help to clarify what your goals are. Are
-                you looking to gain a general understanding of AWS, are you
-              </Text>
-              <Text style={styles.text6}>
-                preparing for an AWS certification, or do you need to learn AWS
-                for a specific project?
-              </Text>
-              <Text style={styles.text7}>
-                Absolutely, I'd be happy to help you prepare to learn about
-                Amazon Web Services (AWS)! AWS is Amazon's cloud platform and
-                it's
-              </Text>
-              <Text style={styles.text8}>
-                one of the most comprehensive and broadly adopted cloud
-                platforms in the world, offering over 175 fully-featured
-                services
-              </Text>
-              <Text style={styles.text9}>from data centers globally.</Text>
-              <Text style={styles.text10}>
-                To get started, it may help to clarify what your goals are. Are
-                you looking to gain a general understanding of AWS, are you
-              </Text>
-              <Text style={styles.text11}>
-                preparing for an AWS certification, or do you need to learn AWS
-                for a specific project?
-              </Text>
-              <Text style={styles.text12}>
-                Absolutely, I'd be happy to help you prepare to learn about
-                Amazon Web Services (AWS)! AWS is Amazon's cloud platform and
-                it's
-              </Text>
-              <Text style={styles.text13}>
-                one of the most comprehensive and broadly adopted cloud
-                platforms in the world, offering over 175 fully-featured
-                services
-              </Text>
-              <Text style={styles.text14}>from data centers globally.</Text>
-              <Text style={styles.text15}>
-                To get started, it may help to clarify what your goals are. Are
-                you looking to gain a general understanding of AWS, are you
-              </Text>
-              <Text style={styles.text16}>
-                preparing for an AWS certification, or do you need to learn AWS
-                for a specific project?
-              </Text>
-            </ScrollView>
-          </View>
-        </View>
-        <View style={styles.inputContainer}>
-          <View style={styles.inputWrapper}>
-            <TextInput
-              placeholder="Ask me anything..."
-              placeholderTextColor="#CCCCCC"
-              style={styles.textInput}
-            />
-            <TouchableOpacity activeOpacity={0.8} style={styles.iconWrapper}>
-              <LinearGradient
-                colors={['#F16C0E', '#C2312C']}
-                start={{x: 0, y: 0}}
-                end={{x: 1, y: 1}}
-                style={styles.sendButton}>
-                <Image
-                  source={require('../../assets/images/sendicon.png')}
-                  style={styles.sendIcon}
-                  resizeMode="contain"
-                />
-              </LinearGradient>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </KeyboardAvoidingView>
+      </TouchableOpacity>
     </LinearGradient>
   );
 };
@@ -171,23 +180,21 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
-  backButton: {
+  leftIconContainer: {
     position: 'absolute',
-    top: 46,
-    left: 5,
-    zIndex: 10,
-    padding: 10,
+    top: 48,
+    left: 10,
+    zIndex: 1,
   },
-  backIcon: {
+  leftIcon: {
     width: 25,
     height: 25,
-    tintColor: '#FFFFFF',
+    resizeMode: 'contain',
   },
-
   gradientBorder: {
     position: 'absolute',
-    top: 30,
-    right: 10,
+    top: 40,
+    right: 20,
     padding: 2,
     borderRadius: 30,
   },
@@ -201,226 +208,148 @@ const styles = StyleSheet.create({
     height: 35,
     borderRadius: 20,
   },
-  textContainer: {
-    marginTop: 30,
-    paddingHorizontal: 20,
+  titleContainer: {
+    marginTop: 25,
+    paddingHorizontal: 10,
   },
-  text: {
+  title: {
     fontSize: 26,
     fontWeight: 'bold',
     color: '#FFFFFF',
-    marginBottom: 10,
-    marginLeft: 20,
+    lineHeight: 32,
+    marginLeft: 30,
   },
-  textDescription: {
-    fontSize: 12.2,
+  bodyContainer: {
+    marginTop: 5,
+    paddingHorizontal: 10,
+  },
+  bodyText: {
+    fontSize: 12.5,
     color: '#CDCDCD',
-    lineHeight: 19,
-    marginLeft: -25,
+    marginLeft: -18,
   },
-  textDescription1: {
-    fontSize: 12.2,
-    color: '#CDCDCD',
-    lineHeight: 19,
-    marginLeft: -25,
-  },
-  textDescription2: {
-    fontSize: 12.2,
-    color: '#CDCDCD',
-    lineHeight: 19,
-    marginLeft: -25,
-  },
-  textDescription3: {
-    fontSize: 12.2,
-    color: '#CDCDCD',
-    lineHeight: 19,
-    marginLeft: -25,
-  },
-  infoBox: {
+  bodyText1: {
+    fontSize: 19,
+    fontWeight: '700',
+    lineHeight: 26,
+    color: '#FFFFFF',
     marginTop: 10,
-    backgroundColor: '#0F142478',
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#F3883580',
-    height: '70%',
-    width: '105%',
-    marginLeft: -10,
-    padding: 10,
+    marginLeft: -20,
   },
-  gradientMessageBox: {
-    borderRadius: 8,
-    height: 45,
-    width: '65%',
-    alignSelf: 'flex-end',
-    justifyContent: 'center',
-    paddingHorizontal: 10,
+  cardBox: {
+    height: 80,
+    width: '106%',
+    backgroundColor: '#36383E',
+    borderRadius: 10,
+    borderWidth: 1.5,
+    borderColor: '#F3883540',
+    marginTop: 10,
+    marginLeft: -12,
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    elevation: 4,
   },
-  text1: {
-    color: '#FFFFFF',
-    fontSize: 12.3,
-    fontWeight: '500',
-    marginTop: -10,
+  cardBox1: {
+    height: 80,
+    width: '106%',
+    backgroundColor: '#36383E',
+    borderRadius: 10,
+    borderWidth: 1.5,
+    borderColor: '#F3883540',
+    marginTop: 10,
+    marginLeft: -12,
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    elevation: 4,
   },
-  text2: {
-    color: '#FFFFFF',
-    fontSize: 12.3,
-    fontWeight: '500',
-    marginLeft: 80,
-  },
-  infoBox1: {
-    flex: 1,
-    marginTop: 20,
-    backgroundColor: '#0F142478',
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#F3883580',
-    padding: 10,
-  },
-  scrollContent: {
-    paddingBottom: 20,
-  },
-  text3: {
-    color: '#FFFFFF',
-    fontSize: 10.2,
-    lineHeight: 14,
-    fontWeight: '600',
-  },
-  text4: {
-    color: '#FFFFFF',
-    fontSize: 10.2,
-    lineHeight: 14,
-    fontWeight: '600',
-    marginTop: 4,
-    marginLeft: 5,
-  },
-  text5: {
-    color: '#FFFFFF',
-    fontSize: 10.2,
-    lineHeight: 14,
-    fontWeight: '600',
-    marginTop: 20,
-  },
-  text6: {
-    color: '#FFFFFF',
-    fontSize: 10.2,
-    lineHeight: 14,
-    fontWeight: '600',
-  },
-  text7: {
-    color: '#FFFFFF',
-    fontSize: 10.2,
-    lineHeight: 14,
-    fontWeight: '600',
-    marginTop: 20,
-  },
-  text8: {
-    color: '#FFFFFF',
-    fontSize: 10.2,
-    lineHeight: 14,
-    fontWeight: '600',
-  },
-  text9: {
-    color: '#FFFFFF',
-    fontSize: 10.2,
-    lineHeight: 14,
-    fontWeight: '600',
-    marginTop: 4,
-    marginLeft: 5,
-  },
-  text10: {
-    color: '#FFFFFF',
-    fontSize: 10.2,
-    lineHeight: 14,
-    fontWeight: '600',
-    marginTop: 20,
-  },
-  text11: {
-    color: '#FFFFFF',
-    fontSize: 10.2,
-    lineHeight: 14,
-    fontWeight: '600',
-  },
-  text12: {
-    color: '#FFFFFF',
-    fontSize: 10.2,
-    lineHeight: 14,
-    fontWeight: '600',
-    marginTop: 20,
-  },
-  text13: {
-    color: '#FFFFFF',
-    fontSize: 10.2,
-    lineHeight: 14,
-    fontWeight: '600',
-  },
-  text14: {
-    color: '#FFFFFF',
-    fontSize: 10.2,
-    lineHeight: 14,
-    fontWeight: '600',
-    marginTop: 4,
-    marginLeft: 5,
-  },
-  text15: {
-    color: '#FFFFFF',
-    fontSize: 10.2,
-    lineHeight: 14,
-    fontWeight: '600',
-    marginTop: 20,
-  },
-  text16: {
-    color: '#FFFFFF',
-    fontSize: 10.2,
-    lineHeight: 14,
-    fontWeight: '600',
-  },
-  inputContainer: {
-    paddingHorizontal: 10,
-    marginTop: 50,
-    marginLeft: -25,
-    marginRight: -20,
-  },
-  inputWrapper: {
-    position: 'relative',
+  cardBox2: {
+    height: 80,
+    width: '106%',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    borderWidth: 1.5,
+    borderColor: '#F3883540',
+    marginTop: 10,
+    marginLeft: -12,
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    elevation: 4,
     flexDirection: 'row',
     alignItems: 'center',
-    flex: 1,
-  },
-  textInput: {
-    flex: 1,
-    height: 60,
-    borderRadius: 30,
-    borderWidth: 1,
-    borderColor: '#FFFFFF',
     paddingHorizontal: 15,
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#FFFFFF',
-    paddingRight: 50,
-    marginLeft: 10,
   },
-  iconWrapper: {
+  image: {
+    height: 18,
+    width: 18,
+    marginLeft: 10,
+    marginTop: 15,
+  },
+  image1: {
+    height: 20,
+    width: 35,
     position: 'absolute',
     right: 15,
-    height: 48,
-    width: 48,
-    borderRadius: 24,
-    backgroundColor: '#F16C0E',
-    justifyContent: 'center',
-    alignItems: 'center',
+    top: 30,
   },
-  sendIcon: {
-    width: 24,
-    height: 24,
-    tintColor: '#FFFFFF',
+  boxText2: {
+    fontSize: 15,
+    fontWeight: '500',
+    lineHeight: 21,
+    color: '#FFFFFF80',
+    marginLeft: 40,
+    marginTop: -20,
   },
-  sendButton: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+  boxText3: {
+    fontSize: 15,
+    fontWeight: '500',
+    lineHeight: 21,
+    color: '#FFFFFF80',
+    marginLeft: 40,
+    marginTop: 5,
+  },
+  image2: {
+    height: 20,
+    width: 20,
+    marginLeft: -5,
+    marginTop: -25,
+  },
+  gradientTextMask: {
+    fontSize: 15,
+    fontWeight: '500',
+    lineHeight: 21,
+    color: 'black',
+  },
+  gradientTextContainer: {
+    marginLeft: 10,
+    marginTop: -10,
     justifyContent: 'center',
-    alignItems: 'center',
-    overflow: 'hidden',
+  },
+  text: {
+    fontSize: 18,
+    fontWeight: '700',
+    lineHeight: 26,
+    color: '#FFFFFF',
+    marginTop: 20,
+    marginLeft: -5,
+  },
+  cardBox3: {
+    height: 55,
+    width: '105%',
+    borderRadius: 7,
+    shadowColor: '#000',
+    shadowOpacity: 0.15,
+    marginTop: 20,
+    marginLeft: -8,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  text1: {
+    fontSize: 18,
+    fontWeight: '700',
+    lineHeight: 28,
+    color: '#FFFFFF',
+    marginLeft: '35%',
+    marginTop: 12,
   },
 });
 

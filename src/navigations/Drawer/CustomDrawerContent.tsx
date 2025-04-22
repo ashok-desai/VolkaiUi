@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Image,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -7,6 +14,7 @@ import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
 type NavigationProp = NativeStackNavigationProp<{
   AccountScreen: undefined;
   AiPoweredInterView: undefined;
+  PreviousInterviewReport: undefined;
   PreviousInterview: undefined;
   LiveInterviewBeta: undefined;
   AiCareerAdvisor: undefined;
@@ -18,17 +26,20 @@ type NavigationProp = NativeStackNavigationProp<{
   GetDemo: undefined;
   ProfileScreen: undefined;
 }>;
+
 const CustomDrawerContent: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
 
   const handleLogout = () => {
     navigation.navigate('LoginScreen');
   };
+
   const goToProfile = () => {
     navigation.navigate('ProfileScreen');
   };
+
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.container}>
       <LinearGradient
         colors={['#000000', '#1a237e', '#000000']}
         start={{x: 0.4, y: -2}}
@@ -36,455 +47,255 @@ const CustomDrawerContent: React.FC = () => {
         style={StyleSheet.absoluteFill}
       />
 
-      <View style={styles.boxContainer}>
+      <View style={styles.logoContainer}>
         <Image
           source={require('../../assets/images/volkaihr.png')}
-          style={styles.image}
+          style={styles.logo}
           resizeMode="contain"
         />
       </View>
-
-      <View style={styles.Container}>
-        <Text style={styles.text}>Interview</Text>
-        <Image
-          source={require('../../assets/images/profile.png')}
-          style={styles.image1}
-        />
-        <Text style={styles.text1}>Account</Text>
-
-        <TouchableOpacity
-          onPress={() => navigation.navigate('AccountScreen')}
-          style={styles.touchArea}
-          activeOpacity={0.7}>
+      <Text style={styles.sectionTitle}>Interview</Text>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.accountContainer}>
           <Image
-            source={require('../../assets/images/righticon.png')}
-            style={styles.image2}
+            source={require('../../assets/images/profile.png')}
+            style={styles.profileIcon}
           />
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => navigation.navigate('AiPoweredInterView')}
-          activeOpacity={0.8}
-          style={styles.boxContainer1}>
-          <Image
-            source={require('../../assets/images/image28.png')}
-            style={styles.image3}
-          />
-          <Text style={styles.text2}>AI-Powered Interview</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => navigation.navigate('LiveInterviewBeta')}
-          activeOpacity={0.8}
-          style={styles.boxContainer2}>
-          <Image
-            source={require('../../assets/images/image29.png')}
-            style={styles.image4}
-          />
-          <Text style={styles.text3}>Live Interview (Beta)</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => navigation.navigate('PreviousInterview')}
-          activeOpacity={0.8}
-          style={styles.boxContainer3}>
-          <Image
-            source={require('../../assets/images/image30.png')}
-            style={styles.image5}
-          />
-          <Text style={styles.text4}>Previous Interview Report</Text>
-        </TouchableOpacity>
-
-        <LinearGradient
-          colors={['#F16C0E', '#C2312C']}
-          start={{x: 0, y: 0}}
-          end={{x: 1, y: 1}}
-          style={styles.boxContainer4}>
+          <Text style={styles.accountText}>Account</Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate('PrepareWithAi')}
-            activeOpacity={0.8}
-            style={{flexDirection: 'row', alignItems: 'center'}}>
+            onPress={() => navigation.navigate('AccountScreen')}
+            style={styles.rightArrow}>
             <Image
-              source={require('../../assets/images/image31.png')}
-              style={styles.image6}
-            />
-            <Text style={styles.text5}>Prepare with AI</Text>
-          </TouchableOpacity>
-        </LinearGradient>
-        <Text style={styles.text6}>Career Tools</Text>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('AiCareerAdvisor')}
-          activeOpacity={0.8}
-          style={styles.boxContainer5}>
-          <Image
-            source={require('../../assets/images/image32.png')}
-            style={styles.image7}
-          />
-          <Text style={styles.text7}>AI Career Advisor</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('AiResumeBuilder')}
-          activeOpacity={0.8}
-          style={styles.boxContainer6}>
-          <Image
-            source={require('../../assets/images/image33.png')}
-            style={styles.image8}
-          />
-          <Text style={styles.text8}>AI Resume Builder</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('AiSmartJobApply')}
-          activeOpacity={0.8}
-          style={styles.boxContainer7}>
-          <Image
-            source={require('../../assets/images/image34.png')}
-            style={styles.image9}
-          />
-          <Text style={styles.text9}>AI Smart Job Apply</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('ConnectWithHiringManagers')}
-          activeOpacity={0.8}
-          style={styles.boxContainer8}>
-          <Image
-            source={require('../../assets/images/image35.png')}
-            style={styles.image10}
-          />
-          <Text style={styles.text10}>Connect with Hiring</Text>
-          <Text style={styles.text11}> Managers</Text>
-        </TouchableOpacity>
-        <Text style={styles.text12}>Demo & Learning</Text>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('GetDemo')}
-          activeOpacity={0.8}
-          style={styles.boxContainer9}>
-          <Image
-            source={require('../../assets/images/image36.png')}
-            style={styles.image11}
-          />
-          <Text style={styles.text13}>Get Demo</Text>
-        </TouchableOpacity>
-        <View style={{marginBottom: 20, alignItems: 'center'}}>
-          <TouchableOpacity activeOpacity={0.8} onPress={goToProfile}>
-            <Image
-              source={require('../../assets/images/image15.png')}
-              style={styles.image12}
+              source={require('../../assets/images/righticon.png')}
+              style={styles.arrowIcon}
             />
           </TouchableOpacity>
         </View>
-        <View style={{marginBottom: 20, alignItems: 'center'}}>
-          <Text style={styles.text14}>Volkai</Text>
 
-          <TouchableOpacity onPress={handleLogout}>
-            <Image
-              source={require('../../assets/images/logout.png')}
-              style={styles.image13}
-            />
-          </TouchableOpacity>
+        <View style={styles.linkContainer}>
+          <DrawerItem
+            title="AI-Powered Interview"
+            icon={require('../../assets/images/image28.png')}
+            onPress={() => navigation.navigate('AiPoweredInterView')}
+          />
+          <DrawerItem
+            title="Live Interview (Beta)"
+            icon={require('../../assets/images/image29.png')}
+            onPress={() => navigation.navigate('LiveInterviewBeta')}
+          />
+          <DrawerItem
+            title="Previous Interview"
+            icon={require('../../assets/images/image30.png')}
+            onPress={() => navigation.navigate('PreviousInterview')}
+          />
+          <DrawerItem
+            title="Previous Interview Report"
+            icon={require('../../assets/images/image30.png')}
+            onPress={() => navigation.navigate('PreviousInterviewReport')}
+          />
+          <LinearGradient
+            colors={['#F16C0E', '#C2312C']}
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 1}}
+            style={styles.gradientBox}>
+            <TouchableOpacity
+              style={styles.row}
+              onPress={() => navigation.navigate('PrepareWithAi')}>
+              <Image
+                source={require('../../assets/images/image31.png')}
+                style={styles.icon}
+              />
+              <Text style={styles.drawerText}>Prepare with AI</Text>
+            </TouchableOpacity>
+          </LinearGradient>
+
+          <Text style={styles.sectionLabel}>Career Tools</Text>
+          <DrawerItem
+            title="AI Career Advisor"
+            icon={require('../../assets/images/image32.png')}
+            onPress={() => navigation.navigate('AiCareerAdvisor')}
+          />
+          <DrawerItem
+            title="AI Resume Builder"
+            icon={require('../../assets/images/image33.png')}
+            onPress={() => navigation.navigate('AiResumeBuilder')}
+          />
+          <DrawerItem
+            title="AI Smart Job Apply"
+            icon={require('../../assets/images/image34.png')}
+            onPress={() => navigation.navigate('AiSmartJobApply')}
+          />
+          <DrawerItem
+            title="Connect with Hiring Managers"
+            icon={require('../../assets/images/image35.png')}
+            onPress={() => navigation.navigate('ConnectWithHiringManagers')}
+            multiLine
+          />
+
+          <Text style={styles.sectionLabel}>Demo & Learning</Text>
+          <DrawerItem
+            title="Get Demo"
+            icon={require('../../assets/images/image36.png')}
+            onPress={() => navigation.navigate('GetDemo')}
+          />
         </View>
+      </ScrollView>
+
+      <View style={styles.bottomContainer}>
+        <TouchableOpacity onPress={goToProfile} style={styles.profileBox}>
+          <Image
+            source={require('../../assets/images/image15.png')}
+            style={styles.profileImage}
+          />
+        </TouchableOpacity>
+
+        <Text style={styles.brand}>Volkai</Text>
+
+        <TouchableOpacity onPress={handleLogout} style={styles.logoutBox}>
+          <Image
+            source={require('../../assets/images/logout.png')}
+            style={styles.logoutIcon}
+          />
+        </TouchableOpacity>
       </View>
     </View>
   );
 };
 
+const DrawerItem = ({
+  title,
+  icon,
+  onPress,
+  multiLine = false,
+}: {
+  title: string;
+  icon: any;
+  onPress: () => void;
+  multiLine?: boolean;
+}) => (
+  <TouchableOpacity style={styles.drawerBox} onPress={onPress}>
+    <Image source={icon} style={styles.icon} />
+    <View style={{marginLeft: 10}}>
+      <Text style={styles.drawerText}>
+        {multiLine ? title.split(' ')[0] : title}
+      </Text>
+      {multiLine && (
+        <Text style={styles.drawerText}>
+          {title.split(' ').slice(1).join(' ')}
+        </Text>
+      )}
+    </View>
+  </TouchableOpacity>
+);
+
 const styles = StyleSheet.create({
-  boxContainer: {
+  container: {flex: 1},
+  logoContainer: {
     marginTop: 40,
     marginHorizontal: 20,
-    width: '95%',
-    height: 60,
     backgroundColor: '#1b2a49',
     borderRadius: 15,
-    borderWidth: 1,
-    alignItems: 'center',
+    height: 60,
     justifyContent: 'center',
-    marginLeft: 8,
+    alignItems: 'center',
   },
-  image: {
-    width: 190,
-    height: 190,
+  logo: {
+    width: 180,
+    height: 60,
   },
-  Container: {
-    marginTop: 10,
-    marginLeft: 30,
+  scrollContainer: {
+    paddingBottom: 20,
+    paddingHorizontal: 20,
   },
-  text: {
+  accountContainer: {
+    marginTop: 20,
+    marginLeft: 10,
+  },
+  sectionTitle: {
     color: '#D8D8D8',
     fontSize: 20,
     fontWeight: '400',
-    marginLeft: -15,
-    marginTop: -10,
+    marginLeft:25,
+    marginTop:20
   },
-  image1: {
-    marginTop: 15,
-    marginLeft: -15,
+  profileIcon: {
+    marginTop: -5,
+    marginLeft:-8
   },
-  text1: {
-    color: '#FFFFFF',
-    marginLeft: 30,
-    marginTop: -27,
+  accountText: {
+    position: 'absolute',
+    left: 50,
+    top: -10,
     fontSize: 22,
     fontWeight: 'bold',
+    color: '#fff',
   },
-  touchArea: {
+  rightArrow: {
     position: 'absolute',
-    right: -10,
-    top: 45,
+    right: 0,
+    top: -13,
     padding: 10,
   },
-  image2: {
-    marginLeft: '90%',
-    marginTop: -18,
-  },
-  boxContainer1: {
-    marginTop: 10,
-    marginHorizontal: 20,
-    width: '105%',
-    height: 50,
-    backgroundColor: '#252525',
-    borderColor: '#3A3F4D4F',
-    borderRadius: 10,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: -20,
-  },
-  image3: {
-    marginLeft: '-80%',
-    width: 27,
-    height: 27,
-    marginBottom: 10,
-  },
-  touchArea1: {
-    position: 'absolute',
-    top: 32,
-    padding: 10,
-  },
-  text2: {
-    color: '#FFFFFF',
-    marginTop: -34,
-    marginRight: 15,
-    fontSize: 19,
-  },
-  boxContainer2: {
-    marginTop: 5,
-    marginHorizontal: 20,
-    width: '105%',
-    height: 50,
-    backgroundColor: '#252525',
-    borderColor: '#3A3F4D4F',
-    borderRadius: 10,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: -20,
-  },
-  image4: {
-    marginLeft: '-80%',
-    width: 27,
-    height: 27,
-    marginBottom: 10,
-  },
-  text3: {
-    color: '#FFFFFF',
-    marginTop: -38,
-    marginRight: 15,
-    fontSize: 19,
-  },
-  boxContainer3: {
-    marginTop: 5,
-    marginHorizontal: 20,
-    width: '105%',
-    height: 50,
-    backgroundColor: '#252525',
-    borderColor: '#3A3F4D4F',
-    borderRadius: 10,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: -20,
-  },
-  image5: {
-    marginLeft: '-80%',
-    width: 27,
-    height: 27,
-    marginBottom: 10,
-  },
-  text4: {
-    color: '#FFFFFF',
-    marginTop: -38,
-    marginRight: -20,
-    fontSize: 19,
-  },
-  boxContainer4: {
-    marginTop: 5,
-    marginHorizontal: 20,
-    width: '105%',
-    height: 50,
-    borderRadius: 10,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: -20,
-  },
-  image6: {
-    marginLeft: -110,
-    width: 27,
-    height: 27,
-    marginRight: 10,
-  },
-  text5: {
-    color: '#FFFFFF',
-    fontSize: 19,
-    marginLeft: 10,
-  },
-  text6: {
-    color: '#D8D8D8',
-    marginTop: 5,
-    fontWeight: '400',
-    fontSize: 15,
-    marginLeft: -14,
-  },
-  boxContainer5: {
-    marginTop: 5,
-    marginHorizontal: 20,
-    width: '105%',
-    height: 50,
-    backgroundColor: '#252525',
-    borderColor: '#3A3F4D4F',
-    borderRadius: 10,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: -20,
-  },
-  image7: {
-    marginLeft: '-80%',
-    width: 27,
-    height: 27,
-    marginBottom: 10,
-  },
-  text7: {
-    color: '#FFFFFF',
-    marginTop: -38,
-    marginRight: 50,
-    fontSize: 19,
-  },
-  boxContainer6: {
-    marginTop: 5,
-    marginHorizontal: 20,
-    width: '105%',
-    height: 50,
-    backgroundColor: '#252525',
-    borderColor: '#3A3F4D4F',
-    borderRadius: 10,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: -20,
-  },
-  image8: {
-    marginLeft: '-82%',
-    width: 30,
+  arrowIcon: {
+    width: 12,
     height: 20,
-    marginBottom: 10,
   },
-  text8: {
-    color: '#FFFFFF',
-    marginTop: -38,
-    marginRight: 50,
-    fontSize: 19,
+  linkContainer: {
+    marginTop: 20,
   },
-  boxContainer7: {
-    marginTop: 5,
-    marginHorizontal: 20,
-    width: '105%',
+  drawerBox: {
+    backgroundColor: '#252525',
+    borderColor: '#3A3F4D4F',
+    borderWidth: 1,
+    borderRadius: 10,
     height: 50,
-    backgroundColor: '#252525',
-    borderColor: '#3A3F4D4F',
-    borderRadius: 10,
-    borderWidth: 1,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: -20,
   },
-  image9: {
-    marginLeft: '-82%',
-    height: 25,
+  icon: {
     width: 30,
+    height: 30,
+  },
+  drawerText: {
+    color: '#fff',
+    fontSize: 17,
+    marginLeft:10
+  },
+  gradientBox: {
+    borderRadius: 10,
+    height: 50,
+    justifyContent: 'center',
+    paddingHorizontal: 10,
     marginBottom: 10,
   },
-  text9: {
-    color: '#FFFFFF',
-    marginTop: -38,
-    marginRight: 50,
-    fontSize: 19,
-  },
-  boxContainer8: {
-    marginTop: 5,
-    marginHorizontal: 20,
-    width: '105%',
-    height: 65,
-    backgroundColor: '#252525',
-    borderColor: '#3A3F4D4F',
-    borderRadius: 10,
-    borderWidth: 1,
+  row: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: -20,
   },
-  image10: {
-    marginLeft: '-82%',
-    width: 30,
-    height: 33,
-    marginTop: 5,
-  },
-  text10: {
-    color: '#FFFFFF',
-    marginTop: -40,
-    marginRight: 40,
-    fontSize: 19,
-  },
-  text11: {
-    color: '#FFFFFF',
-    marginTop: 0,
-    marginRight: 120,
-    fontSize: 19,
-  },
-  text12: {
-    color: '#D8D8D8',
-    fontWeight: '400',
-    marginTop: 10,
+  sectionLabel: {
+    color: '#ccc',
+    marginTop: 20,
+    marginBottom: 10,
     fontSize: 16,
+    fontWeight: '600',
   },
-  boxContainer9: {
-    marginTop: 5,
-    marginHorizontal: 20,
-    width: '105%',
-    height: 50,
-    backgroundColor: '#252525',
-    borderColor: '#3A3F4D4F',
-    borderRadius: 10,
-    borderWidth: 1,
+  bottomContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 25,
+    paddingVertical: 10,
+    marginBottom: 20,
+  },
+  profileBox: {
     justifyContent: 'center',
-    marginLeft: -20,
+    alignItems: 'center',
   },
-  image11: {
-    marginLeft: '-82%',
-    marginBottom: 10,
-  },
-  text13: {
-    color: '#FFFFFF',
-    marginTop: -38,
-    marginRight: 120,
-    fontSize: 19,
-  },
-  image12: {
-    marginTop: 60,
+  profileImage: {
     width: 52,
     height: 52,
-    marginLeft: '-55%',
     borderRadius: 30,
     borderWidth: 2,
     borderColor: '#F38835',
@@ -494,16 +305,17 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 5,
   },
-  text14: {
-    color: '#FFFFFF',
-    marginLeft: '-40%',
-    marginTop: -60,
-    fontSize: 22,
-    fontWeight: 'bold',
+  brand: {
+    color: '#fff',
+    fontWeight: '600',
+    fontSize: 20,
+    marginRight: 100,
   },
-  image13: {
-    marginLeft: '70%',
-    marginTop: -40,
+  logoutBox: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  logoutIcon: {
     width: 50,
     height: 50,
   },

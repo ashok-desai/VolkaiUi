@@ -86,15 +86,15 @@ const AiPoweredInterView = () => {
           </View>
 
           <View style={styles.descriptionBox1}>
-            <View style={styles.descriptionBox2}>
+            <TouchableOpacity style={styles.descriptionBox2}>
               <Text style={styles.descriptionBox1Text}>CEO</Text>
-            </View>
-            <View style={styles.descriptionBox3}>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.descriptionBox3}>
               <Text style={styles.descriptionBox1Text1}>HR</Text>
-            </View>
-            <View style={styles.descriptionBox4}>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.descriptionBox4}>
               <Text style={styles.descriptionBox1Tex2}>Developer</Text>
-            </View>
+            </TouchableOpacity>
             <View style={styles.descriptionBox5}>
               <Image
                 source={require('../../assets/images/image27.png')}
