@@ -17,6 +17,7 @@ type NavigationProp = NativeStackNavigationProp<{
   PreviousInterviewReport: undefined;
   PreviousInterview: undefined;
   LiveInterviewBeta: undefined;
+  VolkaiPremium: undefined;
   AiCareerAdvisor: undefined;
   PrepareWithAi: undefined;
   LoginScreen: undefined;
@@ -82,6 +83,11 @@ const CustomDrawerContent: React.FC = () => {
             title="Live Interview (Beta)"
             icon={require('../../assets/images/image29.png')}
             onPress={() => navigation.navigate('LiveInterviewBeta')}
+          />
+          <DrawerItem
+            title="Volkai Premium"
+            icon={require('../../assets/images/premium.png')}
+            onPress={() => navigation.navigate('VolkaiPremium')}
           />
           <DrawerItem
             title="Previous Interview"

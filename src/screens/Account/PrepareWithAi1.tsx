@@ -325,7 +325,7 @@ const styles = StyleSheet.create({
     lineHeight: 14,
     fontWeight: '600',
     marginTop: 4,
-    marginLeft: 5,
+    marginLeft: 0,
   },
   text10: {
     color: '#FFFFFF',
@@ -359,7 +359,7 @@ const styles = StyleSheet.create({
     lineHeight: 14,
     fontWeight: '600',
     marginTop: 4,
-    marginLeft: 5,
+    marginLeft: 0,
   },
   text15: {
     color: '#FFFFFF',

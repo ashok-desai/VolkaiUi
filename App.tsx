@@ -26,6 +26,8 @@ import ProfileScreen from './src/screens/Account/ProfileScreen';
 import PreviousInterviewReport from './src/screens/Account/PreviousInterviewReport';
 import PreviousInterview from './src/screens/Account/PreviousInterview';
 import PrepareWithAi1 from './src/screens/Account/PrepareWithAi1';
+import VolkaiPremium from './src/screens/Account/VolkaiPremium';
+import VolkaiPremium1 from './src/screens/Account/VolkaiPremium1';
 
 
 const Stack = createNativeStackNavigator();
@@ -69,6 +71,8 @@ function App() {
         />
         <Stack.Screen name="GetDemo" component={GetDemo} />
         <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+        <Stack.Screen name="VolkaiPremium" component={VolkaiPremium} />
+        <Stack.Screen name="VolkaiPremium1" component={VolkaiPremium1} />
       </Stack.Navigator>
     </NavigationContainer>
   );

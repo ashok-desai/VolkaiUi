@@ -49,7 +49,7 @@ const PreviousInterview = () => {
         </View>
       </LinearGradient>
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>Previous Interview</Text>
+        <Text style={styles.title}>Previous Interview Report</Text>
       </View>
       <View style={styles.bodyContainer}>
         <Text style={styles.bodyText}>
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
   },
   leftIconContainer: {
     position: 'absolute',
-    top: 75,
+    top: 74,
     left: 10,
     zIndex: 1,
   },
@@ -192,11 +192,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   title: {
-    fontSize: 26,
+    fontSize: 23,
     fontWeight: 'bold',
     color: '#FFFFFF',
     lineHeight: 32,
-    marginLeft: 30,
+    marginLeft: 18,
   },
   bodyContainer: {
     marginTop: 10,
