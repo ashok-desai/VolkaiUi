@@ -8,18 +8,40 @@ import {
   TextInput,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, RouteProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 
 type RootStackParamList = {
-  VolkaiPremium1: undefined;
+  VolkaiPremium1: {plan: Plan}; // Define plan type here
 };
 
-const VolkaiPremium1 = () => {
+type Plan = {
+  title: string;
+  price: string;
+  titleColor: string;
+  features: {text: string; icon: any}[];
+  buttonText: string;
+  borderColor: string;
+  bgColor: string;
+  btnBgColor: string;
+  btnTextColor: string;
+  badge: any;
+};
+
+const VolkaiPremium1 = ({
+  route,
+}: {
+  route: RouteProp<RootStackParamList, 'VolkaiPremium1'>;
+}) => {
+  const {plan} = route.params;
+  const [coupon, setCoupon] = useState('');
+  const [applyClicked, setApplyClicked] = useState(false); // State to control the visibility
   const navigation =
     useNavigation<StackNavigationProp<RootStackParamList, 'VolkaiPremium1'>>();
 
-  const [coupon, setCoupon] = useState('');
+  const handleApplyCoupon = () => {
+    setApplyClicked(true); // Set to true when Apply button is clicked
+  };
 
   return (
     <LinearGradient
@@ -27,48 +49,75 @@ const VolkaiPremium1 = () => {
       start={{x: 0.4, y: -2.2}}
       end={{x: 4, y: 0.1}}
       style={styles.container}>
-      <View style={styles.descriptionBox}>
-        <View style={styles.descriptionBoxContainer}>
-          <TouchableOpacity
-            style={styles.leftIconContainer}
-            activeOpacity={0.7}
-            onPress={() => navigation.goBack()}>
+      {/* If applyClicked is false, show all content; otherwise, show the image */}
+      {!applyClicked ? (
+        <View style={styles.descriptionBox}>
+          <View style={styles.descriptionBoxContainer}>
+            <TouchableOpacity
+              style={styles.leftIconContainer}
+              activeOpacity={0.7}
+              onPress={() => navigation.goBack()}>
+              <Image
+                source={require('../../assets/images/lefticon.png')}
+                style={styles.image}
+              />
+            </TouchableOpacity>
+
+            <Text style={styles.text}>Checkout</Text>
+
+            {plan.title === 'Basic' && (
+              <View style={styles.centeredContainer}>
+                <Text style={[styles.centeredText, {color: plan.titleColor}]}>
+                  {plan.title}
+                </Text>
+                <Text style={styles.freeLabel}>Free</Text>
+              </View>
+            )}
+
+            {plan.title !== 'Basic' && (
+              <>
+                <Text style={[styles.text1, {color: plan.titleColor}]}>
+                  {plan.title}
+                </Text>
+                <Text style={styles.text2}>{plan.price}</Text>
+              </>
+            )}
+
             <Image
-              source={require('../../assets/images/lefticon.png')}
-              style={styles.image}
+              source={require('../../assets/images/image55.png')}
+              style={styles.image1}
             />
-          </TouchableOpacity>
 
-          <Text style={styles.text}>Checkout</Text>
-          <Text style={styles.text1}>Premium</Text>
-          <Text style={styles.text2}>₹799</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter coupon code"
+              placeholderTextColor="#ccc"
+              value={coupon}
+              onChangeText={setCoupon}
+            />
+            <TouchableOpacity onPress={handleApplyCoupon}>
+              <LinearGradient
+                colors={['#F38835', '#C02D2B']}
+                start={{x: 0, y: 0}}
+                end={{x: 1, y: 1}}
+                style={styles.loginButtonGradient}>
+                <Text style={styles.applyText}>Apply</Text>
+              </LinearGradient>
+            </TouchableOpacity>
 
-          <Image
-            source={require('../../assets/images/image55.png')}
-            style={styles.image1}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Enter coupon code"
-            placeholderTextColor="#ccc"
-            value={coupon}
-            onChangeText={setCoupon}
-          />
-          <TouchableOpacity>
-            <LinearGradient
-              colors={['#F38835', '#C02D2B']}
-              start={{x: 0, y: 0}}
-              end={{x: 1, y: 1}}
-              style={styles.loginButtonGradient}>
-              <Text style={styles.applyText}>Apply</Text>
-            </LinearGradient>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.descriptionBox1}>
-            <Text style={styles.text3}>Pay Now</Text>
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.descriptionBox1}>
+              <Text style={styles.text3}>Pay Now</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      ) : (
+        <View style={styles.centeredImageContainer}>
+          <Image
+            source={require('../../assets/images/successfully.png')}  
+            style={styles.successImage}
+          />
+        </View>
+      )}
     </LinearGradient>
   );
 };
@@ -106,6 +155,22 @@ const styles = StyleSheet.create({
     marginLeft: 45,
     marginTop: -40,
   },
+  centeredContainer: {
+    alignItems: 'center',
+    marginTop: 35,
+  },
+  centeredText: {
+    fontSize: 36,
+    fontWeight: '600',
+    color: '#FFF',
+    textAlign: 'center',
+  },
+  freeLabel: {
+    fontSize: 34,
+    fontWeight: '500',
+    color: '#FFF',
+    marginTop: 0,
+  },
   text1: {
     fontSize: 36,
     fontWeight: '600',
@@ -129,7 +194,6 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '106%',
-    marginTop: 10,
     borderRadius: 5,
     borderColor: 'rgba(211, 211, 211, 0.3)',
     borderWidth: 1,
@@ -172,6 +236,17 @@ const styles = StyleSheet.create({
     color: '#FFF',
     marginTop: -4,
     marginLeft: 90,
+  },
+  centeredImageContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#000',
+  },
+  successImage: {
+    width: 200,
+    height: 200,
+    resizeMode: 'contain',
   },
 });
 

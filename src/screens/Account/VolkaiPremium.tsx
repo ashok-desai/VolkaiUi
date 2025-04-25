@@ -15,15 +15,17 @@ import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 const {width, height} = Dimensions.get('window');
 
-type NavigationProp = NativeStackNavigationProp<{
-  VolkaiPremium1: undefined;
-}>;
+// Define the navigation parameter types
+type RootStackParamList = {
+  VolkaiPremium1: {plan: Plan}; // This defines that `VolkaiPremium1` screen will receive a `plan` object
+};
 
+// Define the `Plan` type
 type Plan = {
   title: string;
   price: string;
   titleColor: string;
-  features: {text?: string; text1?: string; icon: any}[];
+  features: {text?: string; text1?: string; icon: any}[]; // Features of the plan
   buttonText: string;
   borderColor: string;
   bgColor: string;
@@ -31,6 +33,11 @@ type Plan = {
   btnTextColor: string;
   badge: any;
 };
+
+type NavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'VolkaiPremium1'
+>;
 
 const plans: Plan[] = [
   {
@@ -137,10 +144,8 @@ const plans: Plan[] = [
 const VolkaiPremium = () => {
   const navigation = useNavigation<NavigationProp>();
 
-  const handleGetStartedClick = (price: string): void => {
-    if (price === '₹799') {
-      navigation.navigate('VolkaiPremium1'); 
-    }
+  const handleGetStartedClick = (plan: Plan): void => {
+    navigation.navigate('VolkaiPremium1', {plan});
   };
   return (
     <LinearGradient
@@ -237,7 +242,7 @@ const VolkaiPremium = () => {
                     marginTop: 40,
                   },
                 ]}
-                onPress={() => handleGetStartedClick(plan.price)}>
+                onPress={() => handleGetStartedClick(plan)}>
                 <Text style={[styles.buttonText, {color: plan.btnTextColor}]}>
                   {plan.buttonText}
                 </Text>
