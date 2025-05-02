@@ -10,6 +10,10 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {
+  DrawerContentComponentProps,
+  DrawerContentScrollView,
+} from '@react-navigation/drawer';
 
 type NavigationProp = NativeStackNavigationProp<{
   AccountScreen: undefined;
@@ -28,7 +32,7 @@ type NavigationProp = NativeStackNavigationProp<{
   ProfileScreen: undefined;
 }>;
 
-const CustomDrawerContent: React.FC = () => {
+const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
   const navigation = useNavigation<NavigationProp>();
 
   const handleLogout = () => {

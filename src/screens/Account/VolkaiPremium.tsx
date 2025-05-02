@@ -15,17 +15,15 @@ import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 const {width, height} = Dimensions.get('window');
 
-// Define the navigation parameter types
 type RootStackParamList = {
-  VolkaiPremium1: {plan: Plan}; // This defines that `VolkaiPremium1` screen will receive a `plan` object
+  VolkaiPremium1: {plan: Plan}; 
 };
 
-// Define the `Plan` type
 type Plan = {
   title: string;
   price: string;
   titleColor: string;
-  features: {text?: string; text1?: string; icon: any}[]; // Features of the plan
+  features: {text?: string; text1?: string; icon: any}[]; 
   buttonText: string;
   borderColor: string;
   bgColor: string;

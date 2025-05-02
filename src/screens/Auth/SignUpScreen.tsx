@@ -9,6 +9,8 @@ import {
   Platform,
   TouchableOpacity,
   TextInput,
+  ScrollView,
+  KeyboardAvoidingView,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
@@ -65,92 +67,104 @@ const SignUpScreen = () => {
           />
         ))}
 
-        <View style={styles.logoWrapper}>
-          <TouchableOpacity
-            style={styles.logoWrapper}
-            onPress={() => navigation.replace('SplashScreen3')}>
-            <Image
-              source={require('../../assets/images/image.png')}
-              style={styles.logo}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-        </View>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{flex: 1}}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 60 : 0}>
+          <ScrollView
+            contentContainerStyle={styles.scrollContent}
+            keyboardShouldPersistTaps="handled">
+            {/* ⬇️ Now logo scrolls along */}
+            <View style={styles.logoWrapperScroll}>
+              <TouchableOpacity
+                onPress={() => navigation.replace('SplashScreen3')}>
+                <Image
+                  source={require('../../assets/images/image.png')}
+                  style={styles.logo}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+            </View>
 
-        <View style={styles.content}>
-          <Image
-            source={require('../../assets/images/image7.png')}
-            style={styles.image}
-          />
-          <View style={styles.textBlock}>
-            <Text style={styles.heading}>Sign Up</Text>
-            <Text style={styles.subText}>Enter your personal information</Text>
-          </View>
-        </View>
-
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Username</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your username"
-            placeholderTextColor="#aaa"
-          />
-
-          <Text style={styles.label}>Email</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your email"
-            placeholderTextColor="#aaa"
-            keyboardType="email-address"
-          />
-
-          <Text style={styles.label}>Password</Text>
-          <View style={styles.inputWithIcon}>
-            <TextInput
-              style={styles.inputText}
-              placeholder="Enter Password"
-              placeholderTextColor="#aaa"
-              secureTextEntry={!showPassword}
-            />
-            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+            <View style={styles.content}>
               <Image
-                source={require('../../assets/images/icon.png')}
-                style={styles.icon}
-                resizeMode="contain"
+                source={require('../../assets/images/image7.png')}
+                style={styles.image}
               />
-            </TouchableOpacity>
-          </View>
+              <View style={styles.textBlock}>
+                <Text style={styles.heading}>Sign Up</Text>
+                <Text style={styles.subText}>
+                  Enter your personal information
+                </Text>
+              </View>
+            </View>
 
-          <Text style={styles.label}>Confirm Password</Text>
-          <View style={styles.inputWithIcon}>
-            <TextInput
-              style={styles.inputText}
-              placeholder="Enter Password"
-              placeholderTextColor="#aaa"
-              secureTextEntry={!showConfirmPassword}
-            />
-            <TouchableOpacity
-              onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
-              <Image
-                source={require('../../assets/images/icon.png')}
-                style={styles.icon}
-                resizeMode="contain"
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Username</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter your username"
+                placeholderTextColor="#aaa"
               />
-            </TouchableOpacity>
-          </View>
 
-          <TouchableOpacity
-            style={styles.registerButton}
-            onPress={() => navigation.navigate('LoginScreen')}>
-            <LinearGradient
-              colors={['#F38835', '#C02D2B']}
-              start={{x: 0, y: 0}}
-              end={{x: 1, y: 0}}
-              style={styles.registerGradient}>
-              <Text style={styles.registerText}>Register</Text>
-            </LinearGradient>
-          </TouchableOpacity>
-        </View>
+              <Text style={styles.label}>Email</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter your email"
+                placeholderTextColor="#aaa"
+                keyboardType="email-address"
+              />
+
+              <Text style={styles.label}>Password</Text>
+              <View style={styles.inputWithIcon}>
+                <TextInput
+                  style={styles.inputText}
+                  placeholder="Enter Password"
+                  placeholderTextColor="#aaa"
+                  secureTextEntry={!showPassword}
+                />
+                <TouchableOpacity
+                  onPress={() => setShowPassword(!showPassword)}>
+                  <Image
+                    source={require('../../assets/images/icon.png')}
+                    style={styles.icon}
+                    resizeMode="contain"
+                  />
+                </TouchableOpacity>
+              </View>
+
+              <Text style={styles.label}>Confirm Password</Text>
+              <View style={styles.inputWithIcon}>
+                <TextInput
+                  style={styles.inputText}
+                  placeholder="Enter Password"
+                  placeholderTextColor="#aaa"
+                  secureTextEntry={!showConfirmPassword}
+                />
+                <TouchableOpacity
+                  onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
+                  <Image
+                    source={require('../../assets/images/icon.png')}
+                    style={styles.icon}
+                    resizeMode="contain"
+                  />
+                </TouchableOpacity>
+              </View>
+
+              <TouchableOpacity
+                style={styles.registerButton}
+                onPress={() => navigation.navigate('LoginScreen')}>
+                <LinearGradient
+                  colors={['#F38835', '#C02D2B']}
+                  start={{x: 0, y: 0}}
+                  end={{x: 1, y: 0}}
+                  style={styles.registerGradient}>
+                  <Text style={styles.registerText}>Register</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </LinearGradient>
     </View>
   );
@@ -163,8 +177,6 @@ const styles = StyleSheet.create({
   },
   gradient: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   star: {
     position: 'absolute',
@@ -172,10 +184,10 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     zIndex: 1,
   },
-  logoWrapper: {
-    position: 'absolute',
-    top: Platform.OS === 'android' ? 25 : 40,
-    left: 5,
+  logoWrapperScroll: {
+    alignSelf: 'flex-start',
+    marginTop: Platform.OS === 'android' ? -10 : 50,
+    marginLeft: 10,
     width: 45,
     height: 45,
     zIndex: 10,
@@ -183,39 +195,40 @@ const styles = StyleSheet.create({
   logo: {
     width: '100%',
     height: '100%',
+    marginTop:35,
+    marginLeft:-10
+  },
+  scrollContent: {
+    paddingBottom: 10,
+    paddingHorizontal: 15,
   },
   content: {
-    flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
     zIndex: 2,
+    marginTop: 60,
   },
   image: {
     width: 103,
     height: 103,
     resizeMode: 'contain',
-    marginTop: 120,
+    marginBottom: 20,
   },
   textBlock: {
-    marginTop: 20,
-    width: '85%',
+    marginTop: -10,
+    width: '100%',
   },
   heading: {
     color: '#fff',
     fontSize: 28,
     fontWeight: 'bold',
-    marginLeft: -170,
   },
   subText: {
     color: '#ccc',
     fontSize: 14,
     marginTop: 5,
-    marginLeft: -170,
   },
   inputContainer: {
-    marginBottom: 60,
-    width: '100%',
-    paddingHorizontal: 10,
+    marginTop: 10,
     zIndex: 2,
   },
   label: {
@@ -269,7 +282,7 @@ const styles = StyleSheet.create({
   registerText: {
     color: 'white',
     fontSize: 20,
-    height:35,
+    height: 35,
     fontWeight: 'bold',
   },
 });

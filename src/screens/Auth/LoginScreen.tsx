@@ -177,13 +177,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 2,
-    marginTop: -10,
+    marginTop: -50,
   },
   image: {
     width: 103,
     height: 103,
     resizeMode: 'contain',
-    marginTop: 140,
+    marginTop: 150,
   },
   textBlock: {
     marginTop: 30,
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     marginLeft: -165,
   },
   inputContainer: {
-    marginBottom: 170,
+    marginBottom: 190,
     width: '100%',
     paddingHorizontal: 10,
     zIndex: 2,
