@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -9,15 +9,18 @@ import {
   StatusBar,
   TouchableOpacity,
   TextInput,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 
 type RootStackParamList = {
   LoginScreen: undefined;
   ForgotPasswordScreen: undefined;
-  VerifyOtpScreen:undefined;
+  VerifyOtpScreen: undefined;
 };
 
 const generateStars = (count: number) => {
@@ -36,6 +39,43 @@ const generateStars = (count: number) => {
 const ForgotPasswordScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const starsRef = useRef(generateStars(100));
+
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleGetOtp = async () => {
+    if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+      Alert.alert('Error', 'Please enter a valid email address.');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        'https://api.volkai.io/api/auth/forgot-password',
+        {
+          email: email,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+
+      if (response.status === 200 || response.status === 201) {
+        Alert.alert('Success', 'OTP sent successfully!');
+        navigation.navigate('VerifyOtpScreen');
+      } else {
+        Alert.alert('Failed', 'Something went wrong.');
+      }
+    } catch (error: any) {
+      console.error('API Error:', error);
+      Alert.alert('Error', error?.response?.data?.message || 'API failed');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -95,17 +135,25 @@ const ForgotPasswordScreen = () => {
               style={styles.input}
               keyboardType="email-address"
               autoCapitalize="none"
+              value={email}
+              onChangeText={setEmail}
             />
           </View>
+
           <TouchableOpacity
-            onPress={() => navigation.navigate('VerifyOtpScreen')}
-            style={styles.loginButton}>
+            onPress={handleGetOtp}
+            style={styles.loginButton}
+            disabled={loading}>
             <LinearGradient
               colors={['#F38835', '#C02D2B']}
               start={{x: 0, y: 0}}
               end={{x: 1, y: 1}}
               style={styles.loginButtonGradient}>
-              <Text style={styles.loginText}>Get OTP</Text>
+              {loading ? (
+                <ActivityIndicator color="#fff" />
+              ) : (
+                <Text style={styles.loginText}>Get OTP</Text>
+              )}
             </LinearGradient>
           </TouchableOpacity>
         </View>
@@ -115,15 +163,8 @@ const ForgotPasswordScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000',
-  },
-  gradient: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  container: {flex: 1, backgroundColor: '#000'},
+  gradient: {flex: 1, justifyContent: 'center', alignItems: 'center'},
   star: {
     position: 'absolute',
     backgroundColor: '#ffffff',
@@ -138,10 +179,7 @@ const styles = StyleSheet.create({
     height: 45,
     zIndex: 10,
   },
-  logo: {
-    width: '100%',
-    height: '100%',
-  },
+  logo: {width: '100%', height: '100%'},
   content: {
     zIndex: 2,
     alignItems: 'center',
@@ -155,11 +193,7 @@ const styles = StyleSheet.create({
     marginBottom: 50,
     lineHeight: 29,
   },
-  image: {
-    width: 180,
-    height: 212,
-    marginBottom: 30,
-  },
+  image: {width: 180, height: 212, marginBottom: 30},
   subtitle: {
     fontSize: 16,
     color: '#FFFFFFB5',
@@ -197,9 +231,6 @@ const styles = StyleSheet.create({
   input: {
     fontSize: 16,
     color: '#fff',
-  },
-  getOtpText: {
-    color: 'white',
   },
   loginButton: {
     marginTop: 20,

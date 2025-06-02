@@ -14,7 +14,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 
 type RootStackParamList = {
   SplashScreen2: undefined;
-  SignUpScreen: undefined;
+  LoginScreen: undefined;
 };
 
 const generateStars = (count: number) => {
@@ -88,7 +88,7 @@ const SplashScreen3 = () => {
         </View>
 
         <TouchableOpacity
-          onPress={() => navigation.navigate('SignUpScreen')}
+          onPress={() => navigation.navigate('LoginScreen')}
           style={styles.buttonWrapper}>
           <LinearGradient
             colors={['#F38735', '#C2312C']}

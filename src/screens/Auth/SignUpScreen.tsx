@@ -15,6 +15,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
+import axios from 'axios';
 
 type RootStackParamList = {
   SplashScreen3: undefined;
@@ -39,13 +40,69 @@ const SignUpScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const starsRef = useRef(generateStars(100));
 
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleRegister = async () => {
+    setErrorMessage('');
+    if (!username || !email || !password || !confirmPassword) {
+      setErrorMessage('Please fill all fields');
+      return;
+    }
+    if (password !== confirmPassword) {
+      setErrorMessage('Passwords do not match');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        'https://api.volkai.io/api/auth/register',
+        {
+          name: username,
+          email,
+          password,
+        },
+      );
+
+      if (response.status === 200 || response.status === 201) {
+        navigation.navigate('LoginScreen');
+      } else {
+        setErrorMessage('Registration failed. Please try again.');
+      }
+    } catch (error: any) {
+      if (error.response) {
+        const data = error.response.data;
+        if (
+          data?.errors &&
+          Array.isArray(data.errors) &&
+          data.errors.length > 0
+        ) {
+          setErrorMessage(data.errors[0].msg || 'Registration failed.');
+        } else if (data?.message) {
+          setErrorMessage(data.message);
+        } else {
+          setErrorMessage('Registration failed. Please try again.');
+        }
+      } else if (error.request) {
+        setErrorMessage('Network error. Please check your connection.');
+      } else {
+        setErrorMessage('An unexpected error occurred.');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000" />
-
       <LinearGradient
         colors={['#000000', '#1a237e', '#000000']}
         start={{x: 0.7, y: -1}}
@@ -74,10 +131,9 @@ const SignUpScreen = () => {
           <ScrollView
             contentContainerStyle={styles.scrollContent}
             keyboardShouldPersistTaps="handled">
-            {/* ⬇️ Now logo scrolls along */}
             <View style={styles.logoWrapperScroll}>
               <TouchableOpacity
-                onPress={() => navigation.replace('SplashScreen3')}>
+                onPress={() => navigation.replace('LoginScreen')}>
                 <Image
                   source={require('../../assets/images/image.png')}
                   style={styles.logo}
@@ -105,6 +161,9 @@ const SignUpScreen = () => {
                 style={styles.input}
                 placeholder="Enter your username"
                 placeholderTextColor="#aaa"
+                value={username}
+                onChangeText={setUsername}
+                autoCapitalize="none"
               />
 
               <Text style={styles.label}>Email</Text>
@@ -113,6 +172,9 @@ const SignUpScreen = () => {
                 placeholder="Enter your email"
                 placeholderTextColor="#aaa"
                 keyboardType="email-address"
+                autoCapitalize="none"
+                value={email}
+                onChangeText={setEmail}
               />
 
               <Text style={styles.label}>Password</Text>
@@ -122,6 +184,9 @@ const SignUpScreen = () => {
                   placeholder="Enter Password"
                   placeholderTextColor="#aaa"
                   secureTextEntry={!showPassword}
+                  value={password}
+                  onChangeText={setPassword}
+                  autoCapitalize="none"
                 />
                 <TouchableOpacity
                   onPress={() => setShowPassword(!showPassword)}>
@@ -137,9 +202,12 @@ const SignUpScreen = () => {
               <View style={styles.inputWithIcon}>
                 <TextInput
                   style={styles.inputText}
-                  placeholder="Enter Password"
+                  placeholder="Confirm Password"
                   placeholderTextColor="#aaa"
                   secureTextEntry={!showConfirmPassword}
+                  value={confirmPassword}
+                  onChangeText={setConfirmPassword}
+                  autoCapitalize="none"
                 />
                 <TouchableOpacity
                   onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
@@ -151,15 +219,22 @@ const SignUpScreen = () => {
                 </TouchableOpacity>
               </View>
 
+              {errorMessage ? (
+                <Text style={styles.errorText}>{errorMessage}</Text>
+              ) : null}
+
               <TouchableOpacity
-                style={styles.registerButton}
-                onPress={() => navigation.navigate('LoginScreen')}>
+                style={[styles.registerButton, loading && {opacity: 0.7}]}
+                onPress={handleRegister}
+                disabled={loading}>
                 <LinearGradient
                   colors={['#F38835', '#C02D2B']}
                   start={{x: 0, y: 0}}
                   end={{x: 1, y: 0}}
                   style={styles.registerGradient}>
-                  <Text style={styles.registerText}>Register</Text>
+                  <Text style={styles.registerText}>
+                    {loading ? 'Registering...' : 'Register'}
+                  </Text>
                 </LinearGradient>
               </TouchableOpacity>
             </View>
@@ -171,16 +246,11 @@ const SignUpScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000',
-  },
-  gradient: {
-    flex: 1,
-  },
+  container: {flex: 1, backgroundColor: '#000'},
+  gradient: {flex: 1},
   star: {
     position: 'absolute',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#fff',
     borderRadius: 50,
     zIndex: 1,
   },
@@ -195,8 +265,8 @@ const styles = StyleSheet.create({
   logo: {
     width: '100%',
     height: '100%',
-    marginTop:35,
-    marginLeft:-10
+    marginTop: 35,
+    marginLeft: -10,
   },
   scrollContent: {
     paddingBottom: 10,
@@ -264,26 +334,28 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   icon: {
-    width: 30,
-    height: 30,
-    tintColor: 'white',
+    width: 24,
+    height: 24,
+    tintColor: '#ccc',
+  },
+  errorText: {
+    color: '#ff6961',
+    marginTop: 12,
+    fontSize: 14,
   },
   registerButton: {
-    marginTop: 25,
-    width: '100%',
-    borderRadius: 10,
-    overflow: 'hidden',
+    marginTop: 30,
+    borderRadius: 12,
   },
   registerGradient: {
-    paddingVertical: 12,
+    paddingVertical: 18,
+    borderRadius: 12,
     alignItems: 'center',
-    borderRadius: 10,
   },
   registerText: {
-    color: 'white',
     fontSize: 20,
-    height: 35,
     fontWeight: 'bold',
+    color: 'white',
   },
 });
 

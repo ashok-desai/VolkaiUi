@@ -12,7 +12,7 @@ import {useNavigation, RouteProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 
 type RootStackParamList = {
-  VolkaiPremium1: {plan: Plan}; // Define plan type here
+  VolkaiPremium1: {plan: Plan}; 
 };
 
 type Plan = {
@@ -35,12 +35,12 @@ const VolkaiPremium1 = ({
 }) => {
   const {plan} = route.params;
   const [coupon, setCoupon] = useState('');
-  const [applyClicked, setApplyClicked] = useState(false); // State to control the visibility
+  const [applyClicked, setApplyClicked] = useState(false);
   const navigation =
     useNavigation<StackNavigationProp<RootStackParamList, 'VolkaiPremium1'>>();
 
   const handleApplyCoupon = () => {
-    setApplyClicked(true); // Set to true when Apply button is clicked
+    setApplyClicked(true); 
   };
 
   return (
@@ -49,7 +49,6 @@ const VolkaiPremium1 = ({
       start={{x: 0.4, y: -2.2}}
       end={{x: 4, y: 0.1}}
       style={styles.container}>
-      {/* If applyClicked is false, show all content; otherwise, show the image */}
       {!applyClicked ? (
         <View style={styles.descriptionBox}>
           <View style={styles.descriptionBoxContainer}>
