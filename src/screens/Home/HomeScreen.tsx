@@ -1,6 +1,6 @@
 import React, {useState, useRef, useEffect} from 'react';
 import {
-  View,
+ View,
   Image,
   StyleSheet,
   Text,
@@ -18,30 +18,101 @@ import {
 } from 'react-native';
 import {v4 as uuidv4} from 'uuid';
 import Clipboard from '@react-native-clipboard/clipboard';
-import RNFetchBlob from 'rn-fetch-blob';
+import RNFS from 'react-native-fs';
 import LinearGradient from 'react-native-linear-gradient';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
+interface Session {
+  id: string;
+  expiresAt: string;
+  refreshToken: string;
+  lastActivity: string;
+}
+
+interface UserData {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  credits: number;
+  sessions: Session[];
+  subscriptionId: {
+    _id: string;
+    name: string;
+    validity: number;
+  };
+  subscriptionExpiry: string;
+  hrInterviewCount: number;
+}
 
 const openSettings = () => {
   Linking.openSettings();
 };
 
-const HomeScreen = ({navigation}:any) => {
+const HomeScreen = ({ navigation }: any) => {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<
-    {text?: string; sender: string; image?: any}[]
+    { text?: string; sender: string; image?: any }[]
   >([]);
-  const [isMessageSent, setIsMessageSent] = useState(false);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editingText, setEditingText] = useState('');
   const inputRef = useRef<TextInput>(null);
   const flatListRef = useRef<FlatList<any>>(null);
+  const [userData, setUserData] = useState<UserData | null>(null);
+  const hasUserSentMessage = messages.some(m => m.sender === 'user');
+
 
   const scrollToBottom = () => {
     if (flatListRef.current && messages.length > 0) {
-      flatListRef.current.scrollToOffset({offset: 0, animated: true});
+      flatListRef.current.scrollToOffset({ offset: 0, animated: true });
     }
   };
+ useEffect(() => {
+  const fetchUserData = async () => {
+    try {
+      const token = await AsyncStorage.getItem('accessToken');
+      console.log('Token used for whoami:', token);
+
+      if (!token) {
+        ToastAndroid.show('Access token not found. Please log in.', ToastAndroid.LONG);
+        navigation.replace('LoginScreen');
+        return;
+      }
+
+      const response = await axios.get('https://api.volkai.io/api/auth/whoami', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setUserData(response.data);
+      console.log('User Data:', response.data);
+    } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+        const status = error.response?.status;
+
+        if (status === 401) {
+          ToastAndroid.show('Session expired. Please log in again.', ToastAndroid.LONG);
+          console.error('401 Unauthorized - Invalid or expired token');
+
+          await AsyncStorage.removeItem('accessToken');
+          await AsyncStorage.removeItem('refreshToken');
+
+          navigation.replace('LoginScreen');
+        } else {
+          ToastAndroid.show('Error fetching user data.', ToastAndroid.SHORT);
+          console.error('API Error:', status, error.response?.data);
+        }
+      } else {
+        ToastAndroid.show('Unknown error occurred.', ToastAndroid.SHORT);
+        console.error('Unknown error:', error);
+      }
+    }
+  };
+
+  fetchUserData();
+}, []);
 
   useEffect(() => {
     scrollToBottom();
@@ -145,7 +216,7 @@ const HomeScreen = ({navigation}:any) => {
       }, 1000);
     } else {
       const userMessage = message.trim().toLowerCase();
-      setIsMessageSent(true);
+     setMessages(prev => [...prev, { text: message, sender: 'user' }]);
       const newMessages = [...messages, {text: message, sender: 'user'}];
       setMessages(newMessages);
       setMessage('');
@@ -178,42 +249,44 @@ const HomeScreen = ({navigation}:any) => {
     }
   };
 
-  const downloadImage = async () => {
-    const imageUrl = 'https://your-image-url.com/downloandimage.png';
+ const downloadImage = async () => {
+  const imageUrl = 'https://your-image-url.com/downloandimage.png';
 
-    try {
-      const granted = await requestStoragePermission();
-      if (!granted) {
-        ToastAndroid.show('Storage permission denied', ToastAndroid.SHORT);
-        return;
-      }
+  try {
+    const granted = await requestStoragePermission();
+    if (!granted) {
+      ToastAndroid.show('Storage permission denied', ToastAndroid.SHORT);
+      return;
+    }
 
-      const {config, fs} = RNFetchBlob;
-      const downloadDir: string =
-        Platform.OS === 'ios' ? fs.dirs.DocumentDir : fs.dirs.DownloadDir;
-      const filePath = `${downloadDir}/image_${uuidv4()}.png`;
+    const downloadDir =
+      Platform.OS === 'ios' ? RNFS.DocumentDirectoryPath : RNFS.DownloadDirectoryPath;
+    const filePath = `${downloadDir}/image_${uuidv4()}.png`;
 
-      ToastAndroid.show('Download started...', ToastAndroid.SHORT);
-      const res = await config({
-        fileCache: true,
-        appendExt: 'png',
-        path: filePath,
-      }).fetch('GET', imageUrl);
+    ToastAndroid.show('Download started...', ToastAndroid.SHORT);
 
-      console.log('Download success:', res.path());
-      if (Platform.OS === 'android') {
-        RNFetchBlob.fs
-          .scanFile([{path: res.path(), mime: 'image/png'}])
-          .then(() => console.log('Scan complete'))
-          .catch(err => console.error('Scan error:', err));
-      }
+    const options = {
+      fromUrl: imageUrl,
+      toFile: filePath,
+      background: true,
+      discretionary: true,
+    };
 
-      ToastAndroid.show(`Saved to: ${res.path()}`, ToastAndroid.LONG);
-    } catch (error) {
-      console.error('Download failed:', error);
+    const downloadResult = await RNFS.downloadFile(options).promise;
+
+    if (downloadResult.statusCode === 200) {
+      console.log('Download success:', filePath);
+      ToastAndroid.show(`Saved to: ${filePath}`, ToastAndroid.LONG);
+    } else {
+      console.error('Download failed with status code:', downloadResult.statusCode);
       ToastAndroid.show('Download failed!', ToastAndroid.SHORT);
     }
-  };
+  } catch (error) {
+    console.error('Download failed:', error);
+    ToastAndroid.show('Download failed!', ToastAndroid.SHORT);
+  }
+};
+
 
   const copyToClipboard = (text: string) => {
     Clipboard.setString(text);
@@ -257,109 +330,113 @@ const HomeScreen = ({navigation}:any) => {
               style={styles.imageRight}
             />
           </View>
-          {!isMessageSent ? (
-            <View style={styles.centeredContainer}>
-              <Image
-                source={require('../../assets/images/image7.png')}
-                style={styles.image}
-              />
-              <Text style={styles.text}>Hi, I’m Volkai Ai</Text>
-              <Text style={styles.text1}>How can I help you today?</Text>
-            </View>
-          ) : (
-            <FlatList
-              keyboardShouldPersistTaps="handled"
-              ref={flatListRef}
-              data={[...messages].reverse()}
-              keyExtractor={(item, index) => index.toString()}
-              onContentSizeChange={scrollToBottom}
-              renderItem={({item, index}) => {
-                const realIndex = messages.length - 1 - index;
-                return (
-                  <View
-                    style={[
-                      styles.messageWrapper,
-                      item.sender === 'user'
-                        ? styles.userWrapper
-                        : styles.aiWrapper,
-                    ]}>
-                    {item.sender === 'ai' && (
-                      <View style={styles.aiIconWrapper}>
-                        <Image
-                          source={require('../../assets/images/volkaiimage.png')}
-                          style={styles.aiIcon}
-                        />
-                      </View>
-                    )}
-                    <View
-                      style={[
-                        styles.messageBubble,
-                        item.sender === 'user'
-                          ? styles.userBubble
-                          : styles.aiBubble,
-                      ]}>
-                      {item.image && (
-                        <View style={styles.imageWrapper}>
-                          <Image
-                            source={item.image}
-                            style={styles.messageImage}
-                          />
-                          <TouchableOpacity
-                            onPress={downloadImage}
-                            style={styles.downloadButton}>
-                            <Image
-                              source={require('../../assets/images/downloandimage.png')}
-                              style={styles.downloadIcon}
-                            />
-                          </TouchableOpacity>
-                          <TouchableOpacity
-                            onPress={() => copyToClipboard(item.text!)}
-                            style={styles.copyButton}>
-                            <Image
-                              source={require('../../assets/images/copyimage.png')}
-                              style={styles.copyIcon}
-                            />
-                          </TouchableOpacity>
-                        </View>
-                      )}
-                      {item.text && (
-                        <Text
-                          style={[
-                            styles.messageText,
-                            item.image && {marginTop: 8},
-                          ]}>
-                          {item.text}
-                        </Text>
-                      )}
-                      {item.sender === 'user' &&
-                        item.text?.toLowerCase().trim() === 'what is web3?' && (
-                          <TouchableOpacity
-                            onPress={() => handleEdit(realIndex)}
-                            style={styles.editButton}>
-                            <Image
-                              source={require('../../assets/images/editimage.png')}
-                              style={styles.copyIcon}
-                            />
-                          </TouchableOpacity>
-                        )}
-                      {item.image && (
-                        <TouchableOpacity
-                          onPress={() => copyToClipboard(item.text!)}
-                          style={styles.copyButton}>
-                          <Image
-                            source={require('../../assets/images/copyimage.png')}
-                            style={styles.copyIcon}
-                          />
-                        </TouchableOpacity>
-                      )}
-                    </View>
+      {!hasUserSentMessage ? (
+        <View style={styles.centeredContainer}>
+          <Image
+            source={require('../../assets/images/image7.png')}
+            style={styles.image}
+          />
+          <Text style={styles.text}>Hi, I’m Volkai Ai</Text>
+          <Text style={styles.text1}>How can I help you today?</Text>
+        </View>
+      ) : (
+        <FlatList
+          keyboardShouldPersistTaps="handled"
+          ref={flatListRef}
+          data={[...messages, ...(userData ? [{
+            sender: 'system',
+            // text: `Welcome, ${userData.name}\nRole: ${userData.role}\nCredits: ${userData.credits}`
+          }] : [])].reverse()}
+          keyExtractor={(item, index) => index.toString()}
+          onContentSizeChange={scrollToBottom}
+          renderItem={({item, index}) => {
+            const realIndex = messages.length - 1 - index;
+            return (
+              <View
+                style={[
+                  styles.messageWrapper,
+                  item.sender === 'user'
+                    ? styles.userWrapper
+                    : styles.aiWrapper,
+                ]}>
+                {item.sender === 'ai' && (
+                  <View style={styles.aiIconWrapper}>
+                    <Image
+                      source={require('../../assets/images/volkaiimage.png')}
+                      style={styles.aiIcon}
+                    />
                   </View>
-                );
-              }}
-              contentContainerStyle={{paddingBottom: 20}}
-              inverted
-            />
-          )}
+                )}
+                <View
+                  style={[
+                    styles.messageBubble,
+                    item.sender === 'user'
+                      ? styles.userBubble
+                      : styles.aiBubble,
+                  ]}>
+                  {item.image && (
+                    <View style={styles.imageWrapper}>
+                      <Image
+                        source={item.image}
+                        style={styles.messageImage}
+                      />
+                      <TouchableOpacity
+                        onPress={downloadImage}
+                        style={styles.downloadButton}>
+                        <Image
+                          source={require('../../assets/images/downloandimage.png')}
+                          style={styles.downloadIcon}
+                        />
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => copyToClipboard(item.text!)}
+                        style={styles.copyButton}>
+                        <Image
+                          source={require('../../assets/images/copyimage.png')}
+                          style={styles.copyIcon}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                  {item.text && (
+                    <Text
+                      style={[
+                        styles.messageText,
+                        item.image && {marginTop: 8},
+                      ]}>
+                      {item.text}
+                    </Text>
+                  )}
+                  {item.sender === 'user' &&
+                    item.text?.toLowerCase().trim() === 'what is web3?' && (
+                      <TouchableOpacity
+                        onPress={() => handleEdit(realIndex)}
+                        style={styles.editButton}>
+                        <Image
+                          source={require('../../assets/images/editimage.png')}
+                          style={styles.copyIcon}
+                        />
+                      </TouchableOpacity>
+                    )}
+                  {item.image && (
+                    <TouchableOpacity
+                      onPress={() => copyToClipboard(item.text!)}
+                      style={styles.copyButton}>
+                      <Image
+                        source={require('../../assets/images/copyimage.png')}
+                        style={styles.copyIcon}
+                      />
+                    </TouchableOpacity>
+                  )}
+                </View>
+              </View>
+            );
+          }}
+          contentContainerStyle={{paddingBottom: 20}}
+          inverted
+        />
+      )}
+
           <View style={styles.textBox}>
             <Image
               source={require('../../assets/images/volkaiimage.png')}

@@ -6,16 +6,18 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {
-  DrawerContentComponentProps,
-  DrawerContentScrollView,
-} from '@react-navigation/drawer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import {DrawerContentComponentProps} from '@react-navigation/drawer';
 
 type NavigationProp = NativeStackNavigationProp<{
+  LoginScreen: undefined;
+  ProfileScreen: undefined;
   AccountScreen: undefined;
   AiPoweredInterView: undefined;
   PreviousInterviewReport: undefined;
@@ -24,19 +26,42 @@ type NavigationProp = NativeStackNavigationProp<{
   VolkaiPremium: undefined;
   AiCareerAdvisor: undefined;
   PrepareWithAi: undefined;
-  LoginScreen: undefined;
   AiResumeBuilder: undefined;
   AiSmartJobApply: undefined;
   ConnectWithHiringManagers: undefined;
   GetDemo: undefined;
-  ProfileScreen: undefined;
 }>;
 
 const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
   const navigation = useNavigation<NavigationProp>();
 
-  const handleLogout = () => {
-    navigation.navigate('LoginScreen');
+  const handleLogout = async () => {
+    try {
+      await AsyncStorage.multiRemove(['accessToken', 'refreshToken']);
+
+      const response = await axios.post(
+        'https://api.volkai.io/api/auth/logout',
+        {},
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      console.log('✅ Logout response:', response.status);
+      console.log('Logout successful')
+
+      Alert.alert('Logout', 'Logout successful');
+    } catch (error: any) {
+      console.error('❌ Logout Error:', error);
+      Alert.alert(
+        'Logout Error',
+        error?.response?.data?.message || 'Logout ke dauraan kuch error aaya.'
+      );
+    } finally {
+      navigation.replace('LoginScreen');
+    }
   };
 
   const goToProfile = () => {
@@ -59,7 +84,9 @@ const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
           resizeMode="contain"
         />
       </View>
+
       <Text style={styles.sectionTitle}>Interview</Text>
+
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.accountContainer}>
           <Image
@@ -103,6 +130,7 @@ const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
             icon={require('../../assets/images/image30.png')}
             onPress={() => navigation.navigate('PreviousInterviewReport')}
           />
+
           <LinearGradient
             colors={['#F16C0E', '#C2312C']}
             start={{x: 0, y: 0}}
@@ -225,12 +253,12 @@ const styles = StyleSheet.create({
     color: '#D8D8D8',
     fontSize: 20,
     fontWeight: '400',
-    marginLeft:25,
-    marginTop:20
+    marginLeft: 25,
+    marginTop: 20,
   },
   profileIcon: {
     marginTop: -5,
-    marginLeft:-8
+    marginLeft: -8,
   },
   accountText: {
     position: 'absolute',
@@ -271,7 +299,7 @@ const styles = StyleSheet.create({
   drawerText: {
     color: '#fff',
     fontSize: 17,
-    marginLeft:10
+    marginLeft: 10,
   },
   gradientBox: {
     borderRadius: 10,

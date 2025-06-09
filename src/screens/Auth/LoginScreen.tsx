@@ -59,46 +59,42 @@ export default function LoginScreen() {
     try {
       const response = await axios.post(
         'https://api.volkai.io/api/auth/login',
-        {email, password},
-        {headers: {'Content-Type': 'application/json'}},
+        { email, password },
+        { withCredentials: true }
       );
 
-      console.log(response.headers['set-cookie']);
-
-      const {id} = response.data;
-
-      const cookies = response.headers['set-cookie']?.join().split(',');
+      const setCookieHeader = response.headers['set-cookie'];
+      console.log('Raw Set-Cookie Header:', setCookieHeader);
 
       let accessToken = '';
       let refreshToken = '';
 
-      cookies?.forEach(cookie => {
-        if (cookie.trim().startsWith('accessToken=')) {
-          accessToken = cookie.trim().split('=')[1];
-        } else if (cookie.trim().startsWith('refreshToken=')) {
-          refreshToken = cookie.trim().split('=')[1];
-        }
-      });
-
-      console.log('Access Token:', accessToken);
-      console.log('Refresh Token:', refreshToken);
-
-      console.log(id, accessToken, refreshToken);
-      if (!id || !accessToken || !refreshToken) {
-        throw new Error('Incomplete login data received.');
+      if (setCookieHeader && Array.isArray(setCookieHeader)) {
+        setCookieHeader.forEach(cookie => {
+          if (cookie.includes('accessToken=')) {
+            accessToken = cookie.split('accessToken=')[1].split(';')[0];
+          }
+          if (cookie.includes('refreshToken=')) {
+            refreshToken = cookie.split('refreshToken=')[1].split(';')[0];
+          }
+        });
       }
 
-      console.log(response);
+      console.log('Extracted accessToken:', accessToken);
+      console.log('Extracted refreshToken:', refreshToken);
 
-      await AsyncStorage.setItem('userId', id);
+      if (!accessToken || !refreshToken) {
+        throw new Error('Tokens missing from login response.');
+      }
+
       await AsyncStorage.setItem('accessToken', accessToken);
       await AsyncStorage.setItem('refreshToken', refreshToken);
-
+      await AsyncStorage.setItem('token', accessToken); 
       Alert.alert('Success', 'Logged in successfully!');
       navigation.replace('Main');
     } catch (err: any) {
       let message = 'Login failed. Please enter valid email and password.';
-      console.log('ghfhfhg', err.response.data);
+      console.error('Login Error:', err.response?.data || err.message);
       if (err.response?.data?.message) {
         message = err.response.data.message;
       }
